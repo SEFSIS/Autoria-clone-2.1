@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.carRouter = void 0;
+const express_1 = require("express");
+const car_controller_1 = require("../controllers/car.controller");
+const car_middleware_1 = require("../middlewares/car.middleware");
+const common_middleware_1 = require("../middlewares/common.middleware");
+const car_validator_1 = require("../validators/car.validator");
+const router = (0, express_1.Router)();
+router.get("/", car_controller_1.carController.getAll);
+router.post("/", common_middleware_1.commonMiddleware.isBodyValid(car_validator_1.CarValidator.create), car_controller_1.carController.createCar);
+router.get("/:carId", common_middleware_1.commonMiddleware.isIdValid("carId"), car_middleware_1.carMiddleware.getByIdOrThrow, car_controller_1.carController.getById);
+router.put("/:carId", common_middleware_1.commonMiddleware.isIdValid("carId"), common_middleware_1.commonMiddleware.isBodyValid(car_validator_1.CarValidator.update), car_controller_1.carController.updateCar);
+router.delete("/:carId", common_middleware_1.commonMiddleware.isIdValid("carId"), car_controller_1.carController.deleteCar);
+exports.carRouter = router;

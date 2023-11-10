@@ -1,0 +1,28 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ECity = void 0;
+var ECity;
+(function (ECity) {
+    ECity["Vinnytsia"] = "Vinnytsia";
+    ECity["Lviv"] = "Lviv";
+    ECity["Odesa"] = "Odesa";
+    ECity["Dnipro"] = "Dnipro";
+    ECity["Donetsk"] = "Donetsk";
+    ECity["Zhytomyr"] = "Zhytomyr";
+    ECity["Uzhhorod"] = "Uzhhorod";
+    ECity["Zaporizhzhia"] = "Zaporizhzhia";
+    ECity["IvanoFrankivsk"] = "Ivano-Frankivsk";
+    ECity["Kyiv"] = "Kyiv";
+    ECity["Kropyvnytskyi"] = "Kropyvnytskyi";
+    ECity["Lysychansk"] = "Lysychansk";
+    ECity["Mykolaiv"] = "Mykolaiv";
+    ECity["Poltava"] = "Poltava";
+    ECity["Rivne"] = "Rivne";
+    ECity["Sumy"] = "Sumy";
+    ECity["Ternopil"] = "Ternopil";
+    ECity["Kharkiv"] = "Kharkiv";
+    ECity["Kherson"] = "Kherson";
+    ECity["Khmelnytskyi"] = "Khmelnytskyi";
+    ECity["Cherkasy"] = "Cherkasy";
+    ECity["Chernihiv"] = "Chernihiv";
+})(ECity || (exports.ECity = ECity = {}));

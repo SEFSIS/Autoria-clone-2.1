@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.managerRouter = void 0;
+const express_1 = require("express");
+const manager_controller_1 = require("../controllers/manager.controller");
+const common_middleware_1 = require("../middlewares/common.middleware");
+const manager_middleware_1 = require("../middlewares/manager.middleware");
+const manager_validator_1 = require("../validators/manager.validator");
+const router = (0, express_1.Router)();
+router.get("/", manager_controller_1.managerController.getAll);
+router.post("/", common_middleware_1.commonMiddleware.isBodyValid(manager_validator_1.ManagerValidator.create), manager_controller_1.managerController.createManager);
+router.get("/:managerId", common_middleware_1.commonMiddleware.isIdValid("managerId"), manager_middleware_1.managerMiddleware.getByIdOrThrow, manager_controller_1.managerController.getById);
+router.put("/:managerId", common_middleware_1.commonMiddleware.isIdValid("managerId"), common_middleware_1.commonMiddleware.isBodyValid(manager_validator_1.ManagerValidator.update), manager_controller_1.managerController.updateManager);
+router.delete("/:managerId", common_middleware_1.commonMiddleware.isIdValid("managerId"), manager_controller_1.managerController.deleteManager);
+exports.managerRouter = router;
