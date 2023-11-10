@@ -24,6 +24,7 @@ class AuthDealerService {
       if (!dealer) {
         throw new ApiError("Invalid credentials provided", 401);
       }
+
       const isMatched = await passwordService.compare(
         dto.password,
         dealer.password,
