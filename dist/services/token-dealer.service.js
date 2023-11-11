@@ -26,6 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.tokenDealerService = void 0;
 const jwt = __importStar(require("jsonwebtoken"));
 const config_1 = require("../configs/config");
+const api_error_1 = require("../errors/api.error");
 class TokenDealerService {
     generateTokenDealerPair(payload) {
         const accessToken = jwt.sign(payload, config_1.configs.JWT_ACCESS_SECRET, {
@@ -38,6 +39,23 @@ class TokenDealerService {
             accessToken,
             refreshToken,
         };
+    }
+    checkToken(token, type) {
+        try {
+            let secret;
+            switch (type) {
+                case "access":
+                    secret = config_1.configs.JWT_ACCESS_SECRET;
+                    break;
+                case "refresh":
+                    secret = config_1.configs.JWT_REFRESH_SECRET;
+                    break;
+            }
+            return jwt.verify(token, secret);
+        }
+        catch (e) {
+            throw new api_error_1.ApiError("Token not valid!", 401);
+        }
     }
 }
 exports.tokenDealerService = new TokenDealerService();

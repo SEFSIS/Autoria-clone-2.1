@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import { authClientController } from "../controllers/auth-client.controller";
+import { authClientMiddleware } from "../middlewares/auth-client.middleware";
 import { commonMiddleware } from "../middlewares/common.middleware";
 import { ClientValidator } from "../validators/client.validator";
 
@@ -13,4 +14,9 @@ router.post(
 );
 router.post("/login-client", authClientController.login);
 
+router.post(
+  "/refresh-client",
+  authClientMiddleware.checkRefreshToken,
+  authClientController.refresh,
+);
 export const authClientRouter = router;

@@ -2,7 +2,10 @@ import { ApiError } from "../errors/api.error";
 import { clientRepository } from "../repositories/client.repository";
 import { tokenClientRepository } from "../repositories/token-client.repository";
 import { IClientCredentials } from "../types/client.type";
-import { ITokensClientPair } from "../types/token-client.type";
+import {
+  ITokenClientPayload,
+  ITokensClientPair,
+} from "../types/token-client.type";
 import { passwordService } from "./password.service";
 import { tokenClientService } from "./token-client.service";
 
@@ -44,6 +47,30 @@ class AuthClientService {
       });
 
       return tokensClientPair;
+    } catch (e) {
+      throw new ApiError(e.message, e.status);
+    }
+  }
+
+  public async refresh(
+    payload: ITokenClientPayload,
+    refreshToken: string,
+  ): Promise<ITokensClientPair> {
+    try {
+      const tokensPair = tokenClientService.generateTokenClientPair({
+        clientId: payload.clientId,
+        name: payload.name,
+      });
+
+      await Promise.all([
+        tokenClientRepository.create({
+          ...tokensPair,
+          _clientId: payload.clientId,
+        }),
+        tokenClientRepository.deleteOne({ refreshToken }),
+      ]);
+
+      return tokensPair;
     } catch (e) {
       throw new ApiError(e.message, e.status);
     }

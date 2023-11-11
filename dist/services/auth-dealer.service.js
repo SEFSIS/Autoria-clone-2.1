@@ -42,5 +42,24 @@ class AuthDealerService {
             throw new api_error_1.ApiError(e.message, e.status);
         }
     }
+    async refresh(payload, refreshToken) {
+        try {
+            const tokensPair = token_dealer_service_1.tokenDealerService.generateTokenDealerPair({
+                dealerId: payload.dealerId,
+                name: payload.name,
+            });
+            await Promise.all([
+                token_dealer_repository_1.tokenDealerRepository.create({
+                    ...tokensPair,
+                    _dealerId: payload.dealerId,
+                }),
+                token_dealer_repository_1.tokenDealerRepository.deleteOne({ refreshToken }),
+            ]);
+            return tokensPair;
+        }
+        catch (e) {
+            throw new api_error_1.ApiError(e.message, e.status);
+        }
+    }
 }
 exports.authDealerService = new AuthDealerService();

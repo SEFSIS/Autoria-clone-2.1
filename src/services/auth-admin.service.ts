@@ -1,10 +1,13 @@
 import { ApiError } from "../errors/api.error";
-import {tokenAdminRepository} from "../repositories/token-admin.repository";
-import {tokenAdminService} from "./token-admin.service";
-import {passwordService} from "./password.service";
-import {adminRepository} from "../repositories/admin.repository";
-import {IAdminCredentials} from "../types/admin.type";
-import {ITokensAdminPair} from "../types/token-admin.type";
+import { adminRepository } from "../repositories/admin.repository";
+import { tokenAdminRepository } from "../repositories/token-admin.repository";
+import { IAdminCredentials } from "../types/admin.type";
+import {
+  ITokenAdminPayload,
+  ITokensAdminPair,
+} from "../types/token-admin.type";
+import { passwordService } from "./password.service";
+import { tokenAdminService } from "./token-admin.service";
 
 class AuthAdminService {
   public async register(dto: IAdminCredentials): Promise<void> {
@@ -42,6 +45,29 @@ class AuthAdminService {
       });
 
       return tokensAdminPair;
+    } catch (e) {
+      throw new ApiError(e.message, e.status);
+    }
+  }
+  public async refresh(
+    payload: ITokenAdminPayload,
+    refreshToken: string,
+  ): Promise<ITokensAdminPair> {
+    try {
+      const tokensPair = tokenAdminService.generateTokenAdminPair({
+        adminId: payload.adminId,
+        name: payload.name,
+      });
+
+      await Promise.all([
+        tokenAdminRepository.create({
+          ...tokensPair,
+          _adminId: payload.adminId,
+        }),
+        tokenAdminRepository.deleteOne({ refreshToken }),
+      ]);
+
+      return tokensPair;
     } catch (e) {
       throw new ApiError(e.message, e.status);
     }

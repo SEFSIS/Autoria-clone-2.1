@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 
-import { authAdminService } from "../services/auth-admin.service";
-import { ITokensAdminPair } from "../types/token-admin.type";
+
+import {ITokenAdminPayload, ITokensAdminPair} from "../types/token-admin.type";
+import {authAdminService} from "../services/auth-admin.service";
+
 
 class AuthAdminController {
   public async register(
@@ -27,6 +29,26 @@ class AuthAdminController {
       const tokensAdminPair = await authAdminService.login(req.body);
 
       return res.json(tokensAdminPair);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async refresh(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response<ITokensAdminPair>> {
+    try {
+      const tokenPayload = req.res.locals.tokenPayload as ITokenAdminPayload;
+      const refreshToken = req.res.locals.refreshToken as string;
+
+      const tokensPair = await authAdminService.refresh(
+        tokenPayload,
+        refreshToken,
+      );
+
+      return res.status(201).json(tokensPair);
     } catch (e) {
       next(e);
     }

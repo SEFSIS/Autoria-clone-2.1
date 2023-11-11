@@ -2,7 +2,10 @@ import { ApiError } from "../errors/api.error";
 import { dealerRepository } from "../repositories/dealer.repository";
 import { tokenDealerRepository } from "../repositories/token-dealer.repository";
 import { IDealerCredentials } from "../types/dealer.type";
-import { ITokensDealerPair } from "../types/token-dealer.type";
+import {
+  ITokenDealerPayload,
+  ITokensDealerPair,
+} from "../types/token-dealer.type";
 import { passwordService } from "./password.service";
 import { tokenDealerService } from "./token-dealer.service";
 
@@ -44,6 +47,30 @@ class AuthDealerService {
       });
 
       return tokensDealerPair;
+    } catch (e) {
+      throw new ApiError(e.message, e.status);
+    }
+  }
+
+  public async refresh(
+    payload: ITokenDealerPayload,
+    refreshToken: string,
+  ): Promise<ITokensDealerPair> {
+    try {
+      const tokensPair = tokenDealerService.generateTokenDealerPair({
+        dealerId: payload.dealerId,
+        name: payload.name,
+      });
+
+      await Promise.all([
+        tokenDealerRepository.create({
+          ...tokensPair,
+          _dealerId: payload.dealerId,
+        }),
+        tokenDealerRepository.deleteOne({ refreshToken }),
+      ]);
+
+      return tokensPair;
     } catch (e) {
       throw new ApiError(e.message, e.status);
     }

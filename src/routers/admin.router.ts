@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import { adminController } from "../controllers/admin.controller";
 import { adminMiddleware } from "../middlewares/admin.middleware";
+import { authAdminMiddleware } from "../middlewares/auth-admin.middleware";
 import { commonMiddleware } from "../middlewares/common.middleware";
 import { AdminValidator } from "../validators/admin.validator";
 
@@ -16,6 +17,7 @@ router.get(
 );
 router.put(
   "/:adminId",
+  authAdminMiddleware.checkAccessToken,
   commonMiddleware.isIdValid("adminId"),
   commonMiddleware.isBodyValid(AdminValidator.update),
   adminController.updateAdmin,

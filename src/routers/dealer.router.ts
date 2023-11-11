@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import { dealerController } from "../controllers/dealer.controller";
+import { authDealerMiddleware } from "../middlewares/auth-dealer.middleware";
 import { commonMiddleware } from "../middlewares/common.middleware";
 import { dealerMiddleware } from "../middlewares/dealer.middleware";
 import { DealerValidator } from "../validators/dealer.validator";
@@ -15,6 +16,7 @@ router.get(
 );
 router.put(
   "/:dealerId",
+  authDealerMiddleware.checkAccessToken,
   commonMiddleware.isIdValid("dealerId"),
   commonMiddleware.isBodyValid(DealerValidator.update),
   dealerController.updateDealer,

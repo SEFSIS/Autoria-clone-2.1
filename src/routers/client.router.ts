@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import { clientController } from "../controllers/client.controller";
+import { authClientMiddleware } from "../middlewares/auth-client.middleware";
 import { clientMiddleware } from "../middlewares/client.middleware";
 import { commonMiddleware } from "../middlewares/common.middleware";
 import { ClientValidator } from "../validators/client.validator";
@@ -15,6 +16,7 @@ router.get(
 );
 router.put(
   "/:clientId",
+  authClientMiddleware.checkAccessToken,
   commonMiddleware.isIdValid("clientId"),
   commonMiddleware.isBodyValid(ClientValidator.update),
   clientController.updateClient,
