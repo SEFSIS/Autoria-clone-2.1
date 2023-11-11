@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
+import { ECity } from "../enums/city.enum";
 import { carService } from "../services/car.service";
 import { ICar } from "../types/car.type";
 import { ITokenDealerPayload } from "../types/token-dealer.type";
@@ -71,13 +72,43 @@ class CarController {
 
   public async getById(req: Request, res: Response, next: NextFunction) {
     try {
-      const car = req.res.locals;
+      const car = await carService.getById(req.params.carId);
 
       res.json(car);
     } catch (e) {
       next(e);
     }
   }
+  public async getAveragePriceByCity(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const { city } = req.params;
+      const averagePrice = await carService.getAveragePriceByCity(
+        city as ECity,
+      );
+
+      res.json({ averagePrice });
+    } catch (e) {
+      next(e);
+    }
+  }
+  public async getAveragePriceForAllCities(
+      req: Request,
+      res: Response,
+      next: NextFunction,
+  ): Promise<void> {
+    try {
+      const averagePrice = await carService.getAveragePriceForAllCities();
+
+      res.json({ averagePrice });
+    } catch (e) {
+      next(e);
+    }
+  }
+
 }
 
 export const carController = new CarController();

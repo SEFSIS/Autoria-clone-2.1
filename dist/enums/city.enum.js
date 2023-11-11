@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ECity = void 0;
 var ECity;
 (function (ECity) {
-    ECity["Vinnytsia"] = "Vinnytsia";
     ECity["Lviv"] = "Lviv";
     ECity["Odesa"] = "Odesa";
     ECity["Dnipro"] = "Dnipro";
@@ -11,7 +10,6 @@ var ECity;
     ECity["Zhytomyr"] = "Zhytomyr";
     ECity["Uzhhorod"] = "Uzhhorod";
     ECity["Zaporizhzhia"] = "Zaporizhzhia";
-    ECity["IvanoFrankivsk"] = "Ivano-Frankivsk";
     ECity["Kyiv"] = "Kyiv";
     ECity["Kropyvnytskyi"] = "Kropyvnytskyi";
     ECity["Lysychansk"] = "Lysychansk";

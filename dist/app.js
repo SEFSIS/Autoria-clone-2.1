@@ -38,6 +38,7 @@ const car_router_1 = require("./routers/car.router");
 const client_router_1 = require("./routers/client.router");
 const dealer_router_1 = require("./routers/dealer.router");
 const manager_router_1 = require("./routers/manager.router");
+const premium_router_1 = require("./routers/premium.router");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -50,6 +51,7 @@ app.use("/auth-dealer", auth_dealer_router_1.authDealerRouter);
 app.use("/auth-client", auth_client_router_1.authClientRouter);
 app.use("/auth-admin", auth_admin_router_1.authAdminRouter);
 app.use("/auth-manager", auth_manager_router_1.authManagerRouter);
+app.use("/premiums", premium_router_1.premiumRouter);
 app.use((error, req, res, next) => {
     const status = error.status || 500;
     res.status(status).json({

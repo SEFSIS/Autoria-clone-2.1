@@ -11,6 +11,7 @@ import { carRouter } from "./routers/car.router";
 import { clientRouter } from "./routers/client.router";
 import { dealerRouter } from "./routers/dealer.router";
 import { managerRouter } from "./routers/manager.router";
+import { premiumRouter } from "./routers/premium.router";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use("/auth-dealer", authDealerRouter);
 app.use("/auth-client", authClientRouter);
 app.use("/auth-admin", authAdminRouter);
 app.use("/auth-manager", authManagerRouter);
+app.use("/premiums", premiumRouter);
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   const status = error.status || 500;

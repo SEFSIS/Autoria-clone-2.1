@@ -1,6 +1,7 @@
 import { model, Schema, Types } from "mongoose";
 
 import { EBrand } from "../enums/brand.enum";
+import { ECity, ECityString } from "../enums/city.enum";
 import { EStatus } from "../enums/status.enum";
 import { ICar } from "../types/car.type";
 import { Dealer } from "./Dealer.model";
@@ -46,6 +47,16 @@ const carSchema = new Schema(
       required: true,
       ref: Dealer,
     },
+    city: {
+      type: String,
+      enum: Object.keys(ECity) as ECityString[],
+      required: true,
+    },
+    views: { type: Number, default: 0 },
+    lastViewedAt: { type: Date, default: Date.now },
+    dailyViews: { type: Number, default: 0 },
+    monthlyViews: { type: Number, default: 0 },
+    yearlyViews: { type: Number, default: 0 },
   },
   {
     timestamps: true,

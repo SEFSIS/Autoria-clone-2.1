@@ -56,4 +56,8 @@ router.delete(
   commonMiddleware.isIdValid("carId"),
   carController.deleteCar,
 );
+router.get("/average-price/all", carController.getAveragePriceForAllCities);
+router.get("/average-price/:city", carController.getAveragePriceByCity);
 export const carRouter = router;
+
+

@@ -35,4 +35,6 @@ router.delete("/:carId", (req, res, next) => {
         });
     });
 }, auth_dealer_middleware_1.authDealerMiddleware.checkAccessToken, common_middleware_1.commonMiddleware.isIdValid("carId"), car_controller_1.carController.deleteCar);
+router.get("/average-price/all", car_controller_1.carController.getAveragePriceForAllCities);
+router.get("/average-price/:city", car_controller_1.carController.getAveragePriceByCity);
 exports.carRouter = router;

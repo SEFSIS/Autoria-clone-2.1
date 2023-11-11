@@ -27,13 +27,13 @@ export class ClientValidator {
   });
 
   static register = joi.object({
-    name: this.firstName,
-    surname: this.surname,
-    age: this.age,
-    gender: this.gender,
-    phone: this.phone,
-    email: this.email,
-    city: this.city,
-    password: this.password,
+    name: this.firstName.required(),
+    surname: this.surname.required(),
+    age: this.age.required(),
+    gender: this.gender.required(),
+    phone: this.phone.required(),
+    email: this.email.required(),
+    city: this.city.required(),
+    password: this.password.required(),
   });
 }

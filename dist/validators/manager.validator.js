@@ -26,14 +26,14 @@ ManagerValidator.education = joi_1.default.string().min(3).max(20).trim();
 ManagerValidator.experience = joi_1.default.string().min(3).max(20).trim();
 ManagerValidator.password = joi_1.default.string().regex(regex_constant_1.regexConstant.PASSWORD).trim();
 ManagerValidator.register = joi_1.default.object({
-    name: _a.firstName,
-    surname: _a.surname,
-    age: _a.age,
-    gender: _a.gender,
-    phone: _a.phone,
-    email: _a.email,
-    education: _a.education,
-    experience: _a.experience,
+    name: _a.firstName.required(),
+    surname: _a.surname.required(),
+    age: _a.age.required(),
+    gender: _a.gender.required(),
+    phone: _a.phone.required(),
+    email: _a.email.required(),
+    education: _a.education.required(),
+    experience: _a.experience.required(),
     password: _a.password.required(),
 });
 ManagerValidator.update = joi_1.default.object({

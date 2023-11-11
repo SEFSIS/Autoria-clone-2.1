@@ -19,14 +19,14 @@ export class ManagerValidator {
   static password = joi.string().regex(regexConstant.PASSWORD).trim();
 
   static register = joi.object({
-    name: this.firstName,
-    surname: this.surname,
-    age: this.age,
-    gender: this.gender,
-    phone: this.phone,
-    email: this.email,
-    education: this.education,
-    experience: this.experience,
+    name: this.firstName.required(),
+    surname: this.surname.required(),
+    age: this.age.required(),
+    gender: this.gender.required(),
+    phone: this.phone.required(),
+    email: this.email.required(),
+    education: this.education.required(),
+    experience: this.experience.required(),
     password: this.password.required(),
   });
   static update = joi.object({

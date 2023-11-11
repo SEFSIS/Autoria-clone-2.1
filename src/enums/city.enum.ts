@@ -1,5 +1,4 @@
 export enum ECity {
-  Vinnytsia = "Vinnytsia",
   Lviv = "Lviv",
   Odesa = "Odesa",
   Dnipro = "Dnipro",
@@ -7,7 +6,6 @@ export enum ECity {
   Zhytomyr = "Zhytomyr",
   Uzhhorod = "Uzhhorod",
   Zaporizhzhia = "Zaporizhzhia",
-  IvanoFrankivsk = "Ivano-Frankivsk",
   Kyiv = "Kyiv",
   Kropyvnytskyi = "Kropyvnytskyi",
   Lysychansk = "Lysychansk",
@@ -22,3 +20,4 @@ export enum ECity {
   Cherkasy = "Cherkasy",
   Chernihiv = "Chernihiv",
 }
+export type ECityString = keyof typeof ECity;

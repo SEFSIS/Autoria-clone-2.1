@@ -18,13 +18,13 @@ export class AdminValidator {
   static password = joi.string().regex(regexConstant.PASSWORD).trim();
 
   static register = joi.object({
-    name: this.firstName,
-    surname: this.surname,
-    age: this.age,
-    gender: this.gender,
-    phone: this.phone,
-    email: this.email,
-    partnership: this.partnership,
+    name: this.firstName.required(),
+    surname: this.surname.required(),
+    age: this.age.required(),
+    gender: this.gender.required(),
+    phone: this.phone.required(),
+    email: this.email.required(),
+    partnership: this.partnership.required(),
     password: this.password.required(),
   });
   static update = joi.object({

@@ -25,13 +25,13 @@ AdminValidator.email = joi_1.default
 AdminValidator.partnership = joi_1.default.boolean().truthy("yes").falsy("no").sensitive(false);
 AdminValidator.password = joi_1.default.string().regex(regex_constant_1.regexConstant.PASSWORD).trim();
 AdminValidator.register = joi_1.default.object({
-    name: _a.firstName,
-    surname: _a.surname,
-    age: _a.age,
-    gender: _a.gender,
-    phone: _a.phone,
-    email: _a.email,
-    partnership: _a.partnership,
+    name: _a.firstName.required(),
+    surname: _a.surname.required(),
+    age: _a.age.required(),
+    gender: _a.gender.required(),
+    phone: _a.phone.required(),
+    email: _a.email.required(),
+    partnership: _a.partnership.required(),
     password: _a.password.required(),
 });
 AdminValidator.update = joi_1.default.object({
