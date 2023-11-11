@@ -2,6 +2,7 @@ import joi from "joi";
 
 import { EBrand } from "../enums/brand.enum";
 
+
 const currentYear = new Date().getFullYear();
 
 export class CarValidator {

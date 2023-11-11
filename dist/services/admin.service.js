@@ -6,9 +6,6 @@ class AdminService {
     async getAll() {
         return await admin_repository_1.adminRepository.getAll();
     }
-    async createAdmin(dto) {
-        return await admin_repository_1.adminRepository.createAdmin(dto);
-    }
     async updateAdmin(adminId, dto) {
         return await admin_repository_1.adminRepository.updateAdmin(adminId, dto);
     }

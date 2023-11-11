@@ -21,15 +21,6 @@ class AdminController {
             next(e);
         }
     }
-    async createAdmin(req, res, next) {
-        try {
-            const admin = await admin_service_1.adminService.createAdmin(req.body);
-            res.status(201).json(admin);
-        }
-        catch (e) {
-            next(e);
-        }
-    }
     async deleteAdmin(req, res, next) {
         try {
             await admin_service_1.adminService.deleteAdmin(req.params.adminId);

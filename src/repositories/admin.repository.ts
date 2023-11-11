@@ -1,7 +1,7 @@
 import { FilterQuery } from "mongoose";
 
 import { Admin } from "../models/Admin.model";
-import { IAdmin } from "../types/admin.type";
+import { IAdmin, IAdminCredentials } from "../types/admin.type";
 
 class AdminRepository {
   public async getAll(): Promise<IAdmin[]> {
@@ -31,6 +31,10 @@ class AdminRepository {
 
   public async deleteAdmin(adminId: string): Promise<void> {
     await Admin.deleteOne({ _id: adminId });
+  }
+
+  public async register(dto: IAdminCredentials): Promise<IAdmin> {
+    return await Admin.create(dto);
   }
 }
 

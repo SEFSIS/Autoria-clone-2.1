@@ -7,11 +7,7 @@ import { AdminValidator } from "../validators/admin.validator";
 
 const router = Router();
 router.get("/", adminController.getAll);
-router.post(
-  "/",
-  commonMiddleware.isBodyValid(AdminValidator.create),
-  adminController.createAdmin,
-);
+
 router.get(
   "/:adminId",
   commonMiddleware.isIdValid("adminId"),

@@ -18,7 +18,7 @@ export class ManagerValidator {
   static experience = joi.string().min(3).max(20).trim();
   static password = joi.string().regex(regexConstant.PASSWORD).trim();
 
-  static create = joi.object({
+  static register = joi.object({
     name: this.firstName,
     surname: this.surname,
     age: this.age,

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Manager = void 0;
 const mongoose_1 = require("mongoose");
 const gender_enum_1 = require("../enums/gender.enum");
+const status_enum_1 = require("../enums/status.enum");
 const managerSchema = new mongoose_1.Schema({
     name: {
         type: String,
@@ -39,8 +40,13 @@ const managerSchema = new mongoose_1.Schema({
     },
     password: {
         type: String,
-        select: false,
         required: true,
+    },
+    status: {
+        type: String,
+        enum: status_enum_1.EStatus,
+        required: true,
+        default: status_enum_1.EStatus.active,
     },
 }, {
     timestamps: true,

@@ -2,6 +2,7 @@ import { model, Schema } from "mongoose";
 
 import { ECity } from "../enums/city.enum";
 import { EGenders } from "../enums/gender.enum";
+import { EStatus } from "../enums/status.enum";
 import { IDealer } from "../types/dealer.type";
 
 const dealerSchema = new Schema(
@@ -49,6 +50,12 @@ const dealerSchema = new Schema(
     password: {
       type: String,
       required: true,
+    },
+    status: {
+      type: String,
+      enum: EStatus,
+      required: true,
+      default: EStatus.active,
     },
   },
   {

@@ -25,4 +25,15 @@ export class ClientValidator {
     email: this.email,
     city: this.city,
   });
+
+  static register = joi.object({
+    name: this.firstName,
+    surname: this.surname,
+    age: this.age,
+    gender: this.gender,
+    phone: this.phone,
+    email: this.email,
+    city: this.city,
+    password: this.password,
+  });
 }

@@ -25,7 +25,7 @@ ManagerValidator.email = joi_1.default
 ManagerValidator.education = joi_1.default.string().min(3).max(20).trim();
 ManagerValidator.experience = joi_1.default.string().min(3).max(20).trim();
 ManagerValidator.password = joi_1.default.string().regex(regex_constant_1.regexConstant.PASSWORD).trim();
-ManagerValidator.create = joi_1.default.object({
+ManagerValidator.register = joi_1.default.object({
     name: _a.firstName,
     surname: _a.surname,
     age: _a.age,

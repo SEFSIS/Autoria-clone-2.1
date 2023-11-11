@@ -1,7 +1,7 @@
 import { FilterQuery } from "mongoose";
 
 import { Manager } from "../models/Manager.model";
-import { IManager } from "../types/manager.type";
+import { IManager, IManagerCredentials } from "../types/manager.type";
 
 class ManagerRepository {
   public async getAll(): Promise<IManager[]> {
@@ -18,10 +18,6 @@ class ManagerRepository {
     return await Manager.findById(id);
   }
 
-  public async createManager(dto: IManager): Promise<IManager> {
-    return await Manager.create(dto);
-  }
-
   public async updateManager(
     managerId: string,
     dto: Partial<IManager>,
@@ -33,6 +29,10 @@ class ManagerRepository {
 
   public async deleteManager(managerId: string): Promise<void> {
     await Manager.deleteOne({ _id: managerId });
+  }
+
+  public async register(dto: IManagerCredentials): Promise<IManager> {
+    return await Manager.create(dto);
   }
 }
 

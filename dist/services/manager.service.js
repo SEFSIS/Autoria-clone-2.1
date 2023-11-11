@@ -6,9 +6,6 @@ class ManagerService {
     async getAll() {
         return await manager_repository_1.managerRepository.getAll();
     }
-    async createManager(dto) {
-        return await manager_repository_1.managerRepository.createManager(dto);
-    }
     async updateManager(managerId, dto) {
         return await manager_repository_1.managerRepository.updateManager(managerId, dto);
     }

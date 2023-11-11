@@ -22,4 +22,4 @@ const tokensDealerSchema = new Schema(
   { timestamps: true, versionKey: false },
 );
 
-export const TokenDealer = model<ITokenDealer>("token", tokensDealerSchema);
+export const TokenDealer = model<ITokenDealer>("token-dealer", tokensDealerSchema);

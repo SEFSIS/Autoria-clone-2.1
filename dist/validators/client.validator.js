@@ -32,3 +32,13 @@ ClientValidator.update = joi_1.default.object({
     email: _a.email,
     city: _a.city,
 });
+ClientValidator.register = joi_1.default.object({
+    name: _a.firstName,
+    surname: _a.surname,
+    age: _a.age,
+    gender: _a.gender,
+    phone: _a.phone,
+    email: _a.email,
+    city: _a.city,
+    password: _a.password,
+});

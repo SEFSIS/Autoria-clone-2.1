@@ -28,19 +28,6 @@ class ManagerController {
     }
   }
 
-  public async createManager(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
-    try {
-      const manager = await managerService.createManager(req.body);
-
-      res.status(201).json(manager);
-    } catch (e) {
-      next(e);
-    }
-  }
   public async deleteManager(
     req: Request,
     res: Response,

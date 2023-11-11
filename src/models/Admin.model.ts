@@ -2,6 +2,7 @@ import { model, Schema } from "mongoose";
 
 import { EGenders } from "../enums/gender.enum";
 import { IAdmin } from "../types/admin.type";
+import {EStatus} from "../enums/status.enum";
 
 const adminSchema = new Schema(
   {
@@ -38,8 +39,13 @@ const adminSchema = new Schema(
     },
     password: {
       type: String,
-      select: false,
       required: true,
+    },
+    status: {
+      type: String,
+      enum: EStatus,
+      required: true,
+      default: EStatus.active,
     },
   },
   {

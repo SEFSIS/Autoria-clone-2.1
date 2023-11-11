@@ -30,7 +30,10 @@ const express_1 = __importDefault(require("express"));
 const mongoose = __importStar(require("mongoose"));
 const config_1 = require("./configs/config");
 const admin_router_1 = require("./routers/admin.router");
+const auth_admin_router_1 = require("./routers/auth-admin.router");
+const auth_client_router_1 = require("./routers/auth-client.router");
 const auth_dealer_router_1 = require("./routers/auth-dealer.router");
+const auth_manager_router_1 = require("./routers/auth-manager.router");
 const car_router_1 = require("./routers/car.router");
 const client_router_1 = require("./routers/client.router");
 const dealer_router_1 = require("./routers/dealer.router");
@@ -44,6 +47,9 @@ app.use("/admins", admin_router_1.adminRouter);
 app.use("/clients", client_router_1.clientRouter);
 app.use("/dealers", dealer_router_1.dealerRouter);
 app.use("/auth-dealer", auth_dealer_router_1.authDealerRouter);
+app.use("/auth-client", auth_client_router_1.authClientRouter);
+app.use("/auth-admin", auth_admin_router_1.authAdminRouter);
+app.use("/auth-manager", auth_manager_router_1.authManagerRouter);
 app.use((error, req, res, next) => {
     const status = error.status || 500;
     res.status(status).json({

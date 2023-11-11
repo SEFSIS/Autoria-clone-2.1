@@ -24,7 +24,7 @@ AdminValidator.email = joi_1.default
     .messages({ "string.empty": "Email is not valid" });
 AdminValidator.partnership = joi_1.default.boolean().truthy("yes").falsy("no").sensitive(false);
 AdminValidator.password = joi_1.default.string().regex(regex_constant_1.regexConstant.PASSWORD).trim();
-AdminValidator.create = joi_1.default.object({
+AdminValidator.register = joi_1.default.object({
     name: _a.firstName,
     surname: _a.surname,
     age: _a.age,

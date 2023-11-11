@@ -1,6 +1,7 @@
 import { carRepository } from "../repositories/car.repository";
 import { ICar } from "../types/car.type";
 
+
 class CarService {
   public async getAll(): Promise<ICar[]> {
     return await carRepository.getAll();

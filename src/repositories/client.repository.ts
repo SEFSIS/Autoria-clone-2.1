@@ -1,7 +1,7 @@
 import { FilterQuery } from "mongoose";
 
 import { Client } from "../models/Client.model";
-import { IClient } from "../types/client.type";
+import { IClient, IClientCredentials } from "../types/client.type";
 
 class ClientRepository {
   public async getAll(): Promise<IClient[]> {
@@ -23,6 +23,9 @@ class ClientRepository {
     return await Client.findByIdAndUpdate(clientId, dto, {
       returnDocument: "after",
     });
+  }
+  public async register(dto: IClientCredentials): Promise<IClient> {
+    return await Client.create(dto);
   }
 
   public async deleteClient(clientId: string): Promise<void> {

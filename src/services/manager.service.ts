@@ -6,10 +6,6 @@ class ManagerService {
     return await managerRepository.getAll();
   }
 
-  public async createManager(dto: IManager): Promise<IManager> {
-    return await managerRepository.createManager(dto);
-  }
-
   public async updateManager(
     managerId: string,
     dto: Partial<IManager>,

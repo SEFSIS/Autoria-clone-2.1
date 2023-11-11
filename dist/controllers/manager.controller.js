@@ -21,15 +21,6 @@ class ManagerController {
             next(e);
         }
     }
-    async createManager(req, res, next) {
-        try {
-            const manager = await manager_service_1.managerService.createManager(req.body);
-            res.status(201).json(manager);
-        }
-        catch (e) {
-            next(e);
-        }
-    }
     async deleteManager(req, res, next) {
         try {
             await manager_service_1.managerService.deleteManager(req.params.managerId);

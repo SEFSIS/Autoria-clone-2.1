@@ -12,9 +12,6 @@ class ManagerRepository {
     async findById(id) {
         return await Manager_model_1.Manager.findById(id);
     }
-    async createManager(dto) {
-        return await Manager_model_1.Manager.create(dto);
-    }
     async updateManager(managerId, dto) {
         return await Manager_model_1.Manager.findByIdAndUpdate(managerId, dto, {
             returnDocument: "after",
@@ -22,6 +19,9 @@ class ManagerRepository {
     }
     async deleteManager(managerId) {
         await Manager_model_1.Manager.deleteOne({ _id: managerId });
+    }
+    async register(dto) {
+        return await Manager_model_1.Manager.create(dto);
     }
 }
 exports.managerRepository = new ManagerRepository();

@@ -18,4 +18,4 @@ const tokensDealerSchema = new mongoose_1.Schema({
         ref: Dealer_model_1.Dealer,
     },
 }, { timestamps: true, versionKey: false });
-exports.TokenDealer = (0, mongoose_1.model)("token", tokensDealerSchema);
+exports.TokenDealer = (0, mongoose_1.model)("token-dealer", tokensDealerSchema);

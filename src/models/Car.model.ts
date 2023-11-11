@@ -1,6 +1,7 @@
 import { model, Schema } from "mongoose";
 
 import { EBrand } from "../enums/brand.enum";
+import { EStatus } from "../enums/status.enum";
 import { ICar } from "../types/car.type";
 
 const carSchema = new Schema(
@@ -33,6 +34,11 @@ const carSchema = new Schema(
     price: {
       type: Number,
       required: true,
+    },
+    status: {
+      type: String,
+      enum: EStatus,
+      default: EStatus.active,
     },
   },
   {

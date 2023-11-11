@@ -3,7 +3,10 @@ import * as mongoose from "mongoose";
 
 import { configs } from "./configs/config";
 import { adminRouter } from "./routers/admin.router";
+import { authAdminRouter } from "./routers/auth-admin.router";
+import { authClientRouter } from "./routers/auth-client.router";
 import { authDealerRouter } from "./routers/auth-dealer.router";
+import { authManagerRouter } from "./routers/auth-manager.router";
 import { carRouter } from "./routers/car.router";
 import { clientRouter } from "./routers/client.router";
 import { dealerRouter } from "./routers/dealer.router";
@@ -20,6 +23,9 @@ app.use("/admins", adminRouter);
 app.use("/clients", clientRouter);
 app.use("/dealers", dealerRouter);
 app.use("/auth-dealer", authDealerRouter);
+app.use("/auth-client", authClientRouter);
+app.use("/auth-admin", authAdminRouter);
+app.use("/auth-manager", authManagerRouter);
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   const status = error.status || 500;

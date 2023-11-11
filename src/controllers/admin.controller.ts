@@ -28,19 +28,6 @@ class AdminController {
     }
   }
 
-  public async createAdmin(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
-    try {
-      const admin = await adminService.createAdmin(req.body);
-
-      res.status(201).json(admin);
-    } catch (e) {
-      next(e);
-    }
-  }
   public async deleteAdmin(
     req: Request,
     res: Response,

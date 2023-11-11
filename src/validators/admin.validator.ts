@@ -17,7 +17,7 @@ export class AdminValidator {
   static partnership = joi.boolean().truthy("yes").falsy("no").sensitive(false);
   static password = joi.string().regex(regexConstant.PASSWORD).trim();
 
-  static create = joi.object({
+  static register = joi.object({
     name: this.firstName,
     surname: this.surname,
     age: this.age,

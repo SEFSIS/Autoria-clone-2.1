@@ -1,6 +1,7 @@
 import { Document } from "mongoose";
 
 import { EGenders } from "../enums/gender.enum";
+import {EStatus} from "../enums/status.enum";
 
 export interface IAdmin extends Document {
   name?: string;
@@ -11,4 +12,7 @@ export interface IAdmin extends Document {
   phone?: string;
   partnership?: boolean;
   password?: string;
+  status?: EStatus;
 }
+
+export type IAdminCredentials = Pick<IAdmin, "email" | "password">;

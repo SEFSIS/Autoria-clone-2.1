@@ -17,6 +17,9 @@ class ClientRepository {
             returnDocument: "after",
         });
     }
+    async register(dto) {
+        return await Client_model_1.Client.create(dto);
+    }
     async deleteClient(clientId) {
         await Client_model_1.Client.deleteOne({ _id: clientId });
     }

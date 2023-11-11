@@ -8,7 +8,6 @@ const common_middleware_1 = require("../middlewares/common.middleware");
 const admin_validator_1 = require("../validators/admin.validator");
 const router = (0, express_1.Router)();
 router.get("/", admin_controller_1.adminController.getAll);
-router.post("/", common_middleware_1.commonMiddleware.isBodyValid(admin_validator_1.AdminValidator.create), admin_controller_1.adminController.createAdmin);
 router.get("/:adminId", common_middleware_1.commonMiddleware.isIdValid("adminId"), admin_middleware_1.adminMiddleware.getByIdOrThrow, admin_controller_1.adminController.getById);
 router.put("/:adminId", common_middleware_1.commonMiddleware.isIdValid("adminId"), common_middleware_1.commonMiddleware.isBodyValid(admin_validator_1.AdminValidator.update), admin_controller_1.adminController.updateAdmin);
 router.delete("/:adminId", common_middleware_1.commonMiddleware.isIdValid("adminId"), admin_controller_1.adminController.deleteAdmin);

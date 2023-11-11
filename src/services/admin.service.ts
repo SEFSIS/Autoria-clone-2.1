@@ -6,10 +6,6 @@ class AdminService {
     return await adminRepository.getAll();
   }
 
-  public async createAdmin(dto: IAdmin): Promise<IAdmin> {
-    return await adminRepository.createAdmin(dto);
-  }
-
   public async updateAdmin(
     adminId: string,
     dto: Partial<IAdmin>,

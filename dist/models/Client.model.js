@@ -4,6 +4,7 @@ exports.Client = void 0;
 const mongoose_1 = require("mongoose");
 const city_enum_1 = require("../enums/city.enum");
 const gender_enum_1 = require("../enums/gender.enum");
+const status_enum_1 = require("../enums/status.enum");
 const clientSchema = new mongoose_1.Schema({
     name: {
         type: String,
@@ -38,8 +39,13 @@ const clientSchema = new mongoose_1.Schema({
     },
     password: {
         type: String,
-        select: false,
         required: true,
+    },
+    status: {
+        type: String,
+        enum: status_enum_1.EStatus,
+        required: true,
+        default: status_enum_1.EStatus.active,
     },
 }, {
     timestamps: true,

@@ -23,5 +23,8 @@ class AdminRepository {
     async deleteAdmin(adminId) {
         await Admin_model_1.Admin.deleteOne({ _id: adminId });
     }
+    async register(dto) {
+        return await Admin_model_1.Admin.create(dto);
+    }
 }
 exports.adminRepository = new AdminRepository();

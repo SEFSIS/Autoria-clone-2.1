@@ -1,6 +1,7 @@
 import { model, Schema } from "mongoose";
 
 import { EGenders } from "../enums/gender.enum";
+import { EStatus } from "../enums/status.enum";
 import { IManager } from "../types/manager.type";
 
 const managerSchema = new Schema(
@@ -40,8 +41,13 @@ const managerSchema = new Schema(
     },
     password: {
       type: String,
-      select: false,
       required: true,
+    },
+    status: {
+      type: String,
+      enum: EStatus,
+      required: true,
+      default: EStatus.active,
     },
   },
   {
