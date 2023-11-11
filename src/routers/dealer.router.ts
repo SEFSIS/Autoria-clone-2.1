@@ -9,6 +9,11 @@ import { DealerValidator } from "../validators/dealer.validator";
 const router = Router();
 router.get("/", dealerController.getAll);
 router.get(
+  "/me",
+  authDealerMiddleware.checkAccessToken,
+  dealerController.getMe,
+);
+router.get(
   "/:dealerId",
   commonMiddleware.isIdValid("dealerId"),
   dealerMiddleware.getByIdOrThrow,

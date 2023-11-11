@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { clientService } from "../services/client.service";
 import { IClient } from "../types/client.type";
+import { ITokenClientPayload } from "../types/token-client.type";
 
 class ClientController {
   public async getAll(
@@ -53,6 +54,17 @@ class ClientController {
       );
 
       res.status(201).json(client);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async getMe(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { clientId } = req.res.locals.tokenPayload as ITokenClientPayload;
+      const client = await clientService.getMe(clientId);
+
+      res.json(client);
     } catch (e) {
       next(e);
     }

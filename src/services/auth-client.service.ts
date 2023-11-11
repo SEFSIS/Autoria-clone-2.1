@@ -8,6 +8,7 @@ import {
 } from "../types/token-client.type";
 import { passwordService } from "./password.service";
 import { tokenClientService } from "./token-client.service";
+import {ObjectId} from "mongodb";
 
 class AuthClientService {
   public async register(dto: IClientCredentials): Promise<void> {
@@ -37,7 +38,7 @@ class AuthClientService {
       }
       const tokensClientPair = await tokenClientService.generateTokenClientPair(
         {
-          clientId: client._id,
+          clientId: client._id.toString(),
           name: client.name,
         },
       );
@@ -65,7 +66,7 @@ class AuthClientService {
       await Promise.all([
         tokenClientRepository.create({
           ...tokensPair,
-          _clientId: payload.clientId,
+          _clientId: new ObjectId(payload.clientId),
         }),
         tokenClientRepository.deleteOne({ refreshToken }),
       ]);

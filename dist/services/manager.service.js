@@ -12,5 +12,8 @@ class ManagerService {
     async deleteManager(managerId) {
         await manager_repository_1.managerRepository.deleteManager(managerId);
     }
+    async getMe(managerId) {
+        return await manager_repository_1.managerRepository.findById(managerId);
+    }
 }
 exports.managerService = new ManagerService();

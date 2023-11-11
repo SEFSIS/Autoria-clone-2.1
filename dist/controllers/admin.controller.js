@@ -39,5 +39,15 @@ class AdminController {
             next(e);
         }
     }
+    async getMe(req, res, next) {
+        try {
+            const { adminId } = req.res.locals.tokenPayload;
+            const admin = await admin_service_1.adminService.getMe(adminId);
+            res.json(admin);
+        }
+        catch (e) {
+            next(e);
+        }
+    }
 }
 exports.adminController = new AdminController();

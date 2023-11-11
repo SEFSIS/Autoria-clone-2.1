@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 import { ApiError } from "../errors/api.error";
 import { dealerRepository } from "../repositories/dealer.repository";
 import { tokenDealerRepository } from "../repositories/token-dealer.repository";
@@ -37,7 +39,7 @@ class AuthDealerService {
       }
       const tokensDealerPair = await tokenDealerService.generateTokenDealerPair(
         {
-          dealerId: dealer._id,
+          dealerId: dealer._id.toString(),
           name: dealer.name,
         },
       );
@@ -65,7 +67,7 @@ class AuthDealerService {
       await Promise.all([
         tokenDealerRepository.create({
           ...tokensPair,
-          _dealerId: payload.dealerId,
+          _dealerId: new ObjectId(payload.dealerId),
         }),
         tokenDealerRepository.deleteOne({ refreshToken }),
       ]);

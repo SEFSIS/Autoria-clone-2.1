@@ -8,6 +8,7 @@ import {
 } from "../types/token-manager.type";
 import { passwordService } from "./password.service";
 import { tokenManagerService } from "./token-manager.service";
+import {ObjectId} from "mongodb";
 
 class AuthManagerService {
   public async register(dto: IManagerCredentials): Promise<void> {
@@ -37,7 +38,7 @@ class AuthManagerService {
       }
       const tokensManagerPair =
         await tokenManagerService.generateTokenManagerPair({
-          managerId: manager._id,
+          managerId: manager._id.toString(),
           name: manager.name,
         });
       await tokenManagerRepository.create({
@@ -64,7 +65,7 @@ class AuthManagerService {
       await Promise.all([
         tokenManagerRepository.create({
           ...tokensPair,
-          _managerId: payload.managerId,
+          _managerId:  new ObjectId(payload.managerId),
         }),
         tokenManagerRepository.deleteOne({ refreshToken }),
       ]);

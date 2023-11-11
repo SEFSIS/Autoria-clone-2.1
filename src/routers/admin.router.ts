@@ -8,7 +8,7 @@ import { AdminValidator } from "../validators/admin.validator";
 
 const router = Router();
 router.get("/", adminController.getAll);
-
+router.get("/me", authAdminMiddleware.checkAccessToken, adminController.getMe);
 router.get(
   "/:adminId",
   commonMiddleware.isIdValid("adminId"),

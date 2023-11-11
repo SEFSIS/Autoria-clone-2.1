@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { managerService } from "../services/manager.service";
 import { IManager } from "../types/manager.type";
+import { ITokenManagerPayload } from "../types/token-manager.type";
 
 class ManagerController {
   public async getAll(
@@ -53,6 +54,16 @@ class ManagerController {
       );
 
       res.status(201).json(manager);
+    } catch (e) {
+      next(e);
+    }
+  }
+  public async getMe(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { managerId } = req.res.locals.tokenPayload as ITokenManagerPayload;
+      const manager = await managerService.getMe(managerId);
+
+      res.json(manager);
     } catch (e) {
       next(e);
     }

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authDealerService = void 0;
+const mongodb_1 = require("mongodb");
 const api_error_1 = require("../errors/api.error");
 const dealer_repository_1 = require("../repositories/dealer.repository");
 const token_dealer_repository_1 = require("../repositories/token-dealer.repository");
@@ -29,7 +30,7 @@ class AuthDealerService {
                 throw new api_error_1.ApiError("Invalid credentials provided", 401);
             }
             const tokensDealerPair = await token_dealer_service_1.tokenDealerService.generateTokenDealerPair({
-                dealerId: dealer._id,
+                dealerId: dealer._id.toString(),
                 name: dealer.name,
             });
             await token_dealer_repository_1.tokenDealerRepository.create({
@@ -51,7 +52,7 @@ class AuthDealerService {
             await Promise.all([
                 token_dealer_repository_1.tokenDealerRepository.create({
                     ...tokensPair,
-                    _dealerId: payload.dealerId,
+                    _dealerId: new mongodb_1.ObjectId(payload.dealerId),
                 }),
                 token_dealer_repository_1.tokenDealerRepository.deleteOne({ refreshToken }),
             ]);

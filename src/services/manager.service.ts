@@ -16,6 +16,10 @@ class ManagerService {
   public async deleteManager(managerId: string): Promise<void> {
     await managerRepository.deleteManager(managerId);
   }
+
+  public async getMe(managerId: string): Promise<IManager> {
+    return await managerRepository.findById(managerId);
+  }
 }
 
 export const managerService = new ManagerService();

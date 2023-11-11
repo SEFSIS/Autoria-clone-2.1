@@ -3,7 +3,7 @@ import { Document, Types } from "mongoose";
 import { IDealer } from "./dealer.type";
 
 export interface ITokenDealerPayload {
-  dealerId: Types.ObjectId;
+  dealerId: string;
   name: string;
 }
 

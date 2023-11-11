@@ -12,5 +12,8 @@ class ClientService {
     async deleteClient(clientId) {
         await client_repository_1.clientRepository.deleteClient(clientId);
     }
+    async getMe(clientId) {
+        return await client_repository_1.clientRepository.findById(clientId);
+    }
 }
 exports.clientService = new ClientService();

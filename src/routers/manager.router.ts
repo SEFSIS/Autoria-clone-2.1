@@ -8,7 +8,11 @@ import { ManagerValidator } from "../validators/manager.validator";
 
 const router = Router();
 router.get("/", managerController.getAll);
-
+router.get(
+  "/me",
+  authManagerMiddleware.checkAccessToken,
+  managerController.getMe,
+);
 router.get(
   "/:managerId",
   commonMiddleware.isIdValid("managerId"),

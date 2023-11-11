@@ -9,6 +9,11 @@ import { ClientValidator } from "../validators/client.validator";
 const router = Router();
 router.get("/", clientController.getAll);
 router.get(
+  "/me",
+  authClientMiddleware.checkAccessToken,
+  clientController.getMe,
+);
+router.get(
   "/:clientId",
   commonMiddleware.isIdValid("clientId"),
   clientMiddleware.getByIdOrThrow,

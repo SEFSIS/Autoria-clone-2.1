@@ -39,5 +39,15 @@ class ManagerController {
             next(e);
         }
     }
+    async getMe(req, res, next) {
+        try {
+            const { managerId } = req.res.locals.tokenPayload;
+            const manager = await manager_service_1.managerService.getMe(managerId);
+            res.json(manager);
+        }
+        catch (e) {
+            next(e);
+        }
+    }
 }
 exports.managerController = new ManagerController();

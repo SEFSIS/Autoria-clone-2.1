@@ -16,6 +16,9 @@ class ClientService {
   public async deleteClient(clientId: string): Promise<void> {
     await clientRepository.deleteClient(clientId);
   }
+  public async getMe(clientId: string): Promise<IClient> {
+    return await clientRepository.findById(clientId);
+  }
 }
 
 export const clientService = new ClientService();

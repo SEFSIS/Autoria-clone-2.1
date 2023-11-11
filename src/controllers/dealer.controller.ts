@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { dealerService } from "../services/dealer.service";
 import { IDealer } from "../types/dealer.type";
+import { ITokenDealerPayload } from "../types/token-dealer.type";
 
 class DealerController {
   public async getAll(
@@ -53,6 +54,16 @@ class DealerController {
       );
 
       res.status(201).json(dealer);
+    } catch (e) {
+      next(e);
+    }
+  }
+  public async getMe(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { dealerId } = req.res.locals.tokenPayload as ITokenDealerPayload;
+      const dealer = await dealerService.getMe(dealerId);
+
+      res.json(dealer);
     } catch (e) {
       next(e);
     }

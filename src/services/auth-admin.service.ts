@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 import { ApiError } from "../errors/api.error";
 import { adminRepository } from "../repositories/admin.repository";
 import { tokenAdminRepository } from "../repositories/token-admin.repository";
@@ -36,7 +38,7 @@ class AuthAdminService {
         throw new ApiError("Invalid credentials provided", 401);
       }
       const tokensAdminPair = await tokenAdminService.generateTokenAdminPair({
-        adminId: admin._id,
+        adminId: admin._id.toString(),
         name: admin.name,
       });
       await tokenAdminRepository.create({
@@ -62,7 +64,7 @@ class AuthAdminService {
       await Promise.all([
         tokenAdminRepository.create({
           ...tokensPair,
-          _adminId: payload.adminId,
+          _adminId: new ObjectId(payload.adminId),
         }),
         tokenAdminRepository.deleteOne({ refreshToken }),
       ]);

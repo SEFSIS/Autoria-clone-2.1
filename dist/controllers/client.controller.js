@@ -39,5 +39,15 @@ class ClientController {
             next(e);
         }
     }
+    async getMe(req, res, next) {
+        try {
+            const { clientId } = req.res.locals.tokenPayload;
+            const client = await client_service_1.clientService.getMe(clientId);
+            res.json(client);
+        }
+        catch (e) {
+            next(e);
+        }
+    }
 }
 exports.clientController = new ClientController();

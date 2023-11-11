@@ -3,7 +3,7 @@ import { Document, Types } from "mongoose";
 import { IClient } from "./client.type";
 
 export interface ITokenClientPayload {
-  clientId: Types.ObjectId;
+  clientId: string;
   name: string;
 }
 

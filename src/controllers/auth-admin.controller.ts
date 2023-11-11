@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 
-
-import {ITokenAdminPayload, ITokensAdminPair} from "../types/token-admin.type";
-import {authAdminService} from "../services/auth-admin.service";
-
+import { authAdminService } from "../services/auth-admin.service";
+import {
+  ITokenAdminPayload,
+  ITokensAdminPair,
+} from "../types/token-admin.type";
 
 class AuthAdminController {
   public async register(

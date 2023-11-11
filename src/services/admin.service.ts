@@ -16,6 +16,10 @@ class AdminService {
   public async deleteAdmin(adminId: string): Promise<void> {
     await adminRepository.deleteAdmin(adminId);
   }
+
+  public async getMe(adminId: string): Promise<IAdmin> {
+    return await adminRepository.findById(adminId);
+  }
 }
 
 export const adminService = new AdminService();

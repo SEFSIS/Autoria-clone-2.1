@@ -9,6 +9,7 @@ const manager_middleware_1 = require("../middlewares/manager.middleware");
 const manager_validator_1 = require("../validators/manager.validator");
 const router = (0, express_1.Router)();
 router.get("/", manager_controller_1.managerController.getAll);
+router.get("/me", auth_manager_middleware_1.authManagerMiddleware.checkAccessToken, manager_controller_1.managerController.getMe);
 router.get("/:managerId", common_middleware_1.commonMiddleware.isIdValid("managerId"), manager_middleware_1.managerMiddleware.getByIdOrThrow, manager_controller_1.managerController.getById);
 router.put("/:managerId", auth_manager_middleware_1.authManagerMiddleware.checkAccessToken, common_middleware_1.commonMiddleware.isIdValid("managerId"), common_middleware_1.commonMiddleware.isBodyValid(manager_validator_1.ManagerValidator.update), manager_controller_1.managerController.updateManager);
 router.delete("/:managerId", common_middleware_1.commonMiddleware.isIdValid("managerId"), manager_controller_1.managerController.deleteManager);

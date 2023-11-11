@@ -9,6 +9,7 @@ const dealer_middleware_1 = require("../middlewares/dealer.middleware");
 const dealer_validator_1 = require("../validators/dealer.validator");
 const router = (0, express_1.Router)();
 router.get("/", dealer_controller_1.dealerController.getAll);
+router.get("/me", auth_dealer_middleware_1.authDealerMiddleware.checkAccessToken, dealer_controller_1.dealerController.getMe);
 router.get("/:dealerId", common_middleware_1.commonMiddleware.isIdValid("dealerId"), dealer_middleware_1.dealerMiddleware.getByIdOrThrow, dealer_controller_1.dealerController.getById);
 router.put("/:dealerId", auth_dealer_middleware_1.authDealerMiddleware.checkAccessToken, common_middleware_1.commonMiddleware.isIdValid("dealerId"), common_middleware_1.commonMiddleware.isBodyValid(dealer_validator_1.DealerValidator.update), dealer_controller_1.dealerController.updateDealer);
 router.delete("/:dealerId", common_middleware_1.commonMiddleware.isIdValid("dealerId"), dealer_controller_1.dealerController.deleteDealer);

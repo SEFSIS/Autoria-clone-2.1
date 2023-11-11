@@ -12,5 +12,8 @@ class AdminService {
     async deleteAdmin(adminId) {
         await admin_repository_1.adminRepository.deleteAdmin(adminId);
     }
+    async getMe(adminId) {
+        return await admin_repository_1.adminRepository.findById(adminId);
+    }
 }
 exports.adminService = new AdminService();

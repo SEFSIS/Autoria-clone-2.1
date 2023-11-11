@@ -3,7 +3,7 @@ import { Document, Types } from "mongoose";
 import { IAdmin } from "./admin.type";
 
 export interface ITokenAdminPayload {
-  adminId: Types.ObjectId;
+  adminId: string;
   name: string;
 }
 

@@ -12,5 +12,8 @@ class DealerService {
     async deleteDealer(dealerId) {
         await dealer_repository_1.dealerRepository.deleteDealer(dealerId);
     }
+    async getMe(dealerId) {
+        return await dealer_repository_1.dealerRepository.findById(dealerId);
+    }
 }
 exports.dealerService = new DealerService();

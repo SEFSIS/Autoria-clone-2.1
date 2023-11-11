@@ -16,6 +16,9 @@ class DealerService {
   public async deleteDealer(dealerId: string): Promise<void> {
     await dealerRepository.deleteDealer(dealerId);
   }
+  public async getMe(dealerId: string): Promise<IDealer> {
+    return await dealerRepository.findById(dealerId);
+  }
 }
 
 export const dealerService = new DealerService();

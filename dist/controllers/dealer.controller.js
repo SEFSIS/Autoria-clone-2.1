@@ -39,5 +39,15 @@ class DealerController {
             next(e);
         }
     }
+    async getMe(req, res, next) {
+        try {
+            const { dealerId } = req.res.locals.tokenPayload;
+            const dealer = await dealer_service_1.dealerService.getMe(dealerId);
+            res.json(dealer);
+        }
+        catch (e) {
+            next(e);
+        }
+    }
 }
 exports.dealerController = new DealerController();
