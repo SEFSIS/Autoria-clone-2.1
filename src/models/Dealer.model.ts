@@ -1,5 +1,4 @@
 import { model, Schema } from "mongoose";
-
 import { ECity } from "../enums/city.enum";
 import { EGenders } from "../enums/gender.enum";
 import { EStatus } from "../enums/status.enum";

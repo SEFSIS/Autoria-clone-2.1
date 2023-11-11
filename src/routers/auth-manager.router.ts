@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import { authManagerController } from "../controllers/auth-manager.controller";
+import { authAdminMiddleware } from "../middlewares/auth-admin.middleware";
 import { authManagerMiddleware } from "../middlewares/auth-manager.middleware";
 import { commonMiddleware } from "../middlewares/common.middleware";
 import { ManagerValidator } from "../validators/manager.validator";
@@ -9,6 +10,7 @@ const router = Router();
 
 router.post(
   "/register-manager",
+  authAdminMiddleware.checkAccessToken,
   commonMiddleware.isBodyValid(ManagerValidator.register),
   authManagerController.register,
 );

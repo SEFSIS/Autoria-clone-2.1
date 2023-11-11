@@ -19,7 +19,6 @@ export class DealerValidator {
   static vat_id = joi.string().regex(regexConstant.VAT_ID);
   static city = joi.valid(...Object.values(ECity));
   static password = joi.string().regex(regexConstant.PASSWORD).trim();
-
   static update = joi.object({
     age: this.age,
     gender: this.gender,
