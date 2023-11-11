@@ -7,10 +7,11 @@ import { commonMiddleware } from "../middlewares/common.middleware";
 import { AdminValidator } from "../validators/admin.validator";
 
 const router = Router();
-router.get("/", adminController.getAll);
+router.get("/", authAdminMiddleware.checkAccessToken, adminController.getAll);
 router.get("/me", authAdminMiddleware.checkAccessToken, adminController.getMe);
 router.get(
   "/:adminId",
+  authAdminMiddleware.checkAccessToken,
   commonMiddleware.isIdValid("adminId"),
   adminMiddleware.getByIdOrThrow,
   adminController.getById,
@@ -18,12 +19,14 @@ router.get(
 router.put(
   "/:adminId",
   authAdminMiddleware.checkAccessToken,
+  authAdminMiddleware.checkAccessToken,
   commonMiddleware.isIdValid("adminId"),
   commonMiddleware.isBodyValid(AdminValidator.update),
   adminController.updateAdmin,
 );
 router.delete(
   "/:adminId",
+  authAdminMiddleware.checkAccessToken,
   commonMiddleware.isIdValid("adminId"),
   adminController.deleteAdmin,
 );
