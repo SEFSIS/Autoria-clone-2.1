@@ -1,8 +1,8 @@
 import { model, Schema } from "mongoose";
 
 import { EGenders } from "../enums/gender.enum";
+import { EStatus } from "../enums/status.enum";
 import { IAdmin } from "../types/admin.type";
-import {EStatus} from "../enums/status.enum";
 
 const adminSchema = new Schema(
   {

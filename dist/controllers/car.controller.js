@@ -12,18 +12,10 @@ class CarController {
             next(e);
         }
     }
-    async getById(req, res, next) {
-        try {
-            const car = req.res.locals;
-            res.json(car);
-        }
-        catch (e) {
-            next(e);
-        }
-    }
     async createCar(req, res, next) {
         try {
-            const car = await car_service_1.carService.createCar(req.body);
+            const { dealerId } = req.res.locals.tokenPayload;
+            const car = await car_service_1.carService.createCar(req.body, dealerId);
             res.status(201).json(car);
         }
         catch (e) {
@@ -32,7 +24,8 @@ class CarController {
     }
     async deleteCar(req, res, next) {
         try {
-            await car_service_1.carService.deleteCar(req.params.carId);
+            const { dealerId } = req.res.locals.tokenPayload;
+            await car_service_1.carService.deleteCar(req.params.carId, dealerId);
             res.sendStatus(204);
         }
         catch (e) {
@@ -41,8 +34,18 @@ class CarController {
     }
     async updateCar(req, res, next) {
         try {
-            const car = await car_service_1.carService.updateCar(req.params.carId, req.body);
+            const { dealerId } = req.res.locals.tokenPayload;
+            const car = await car_service_1.carService.updateCar(req.params.carId, req.body, dealerId);
             res.status(201).json(car);
+        }
+        catch (e) {
+            next(e);
+        }
+    }
+    async getById(req, res, next) {
+        try {
+            const car = req.res.locals;
+            res.json(car);
         }
         catch (e) {
             next(e);

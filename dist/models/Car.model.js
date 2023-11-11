@@ -4,6 +4,7 @@ exports.Car = void 0;
 const mongoose_1 = require("mongoose");
 const brand_enum_1 = require("../enums/brand.enum");
 const status_enum_1 = require("../enums/status.enum");
+const Dealer_model_1 = require("./Dealer.model");
 const carSchema = new mongoose_1.Schema({
     brand: {
         type: String,
@@ -38,6 +39,11 @@ const carSchema = new mongoose_1.Schema({
         type: String,
         enum: status_enum_1.EStatus,
         default: status_enum_1.EStatus.active,
+    },
+    _dealerId: {
+        type: mongoose_1.Types.ObjectId,
+        required: true,
+        ref: Dealer_model_1.Dealer,
     },
 }, {
     timestamps: true,

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { carService } from "../services/car.service";
 import { ICar } from "../types/car.type";
+import { ITokenDealerPayload } from "../types/token-dealer.type";
 
 class CarController {
   public async getAll(
@@ -17,24 +18,15 @@ class CarController {
       next(e);
     }
   }
-
-  public async getById(req: Request, res: Response, next: NextFunction) {
-    try {
-      const car = req.res.locals;
-
-      res.json(car);
-    } catch (e) {
-      next(e);
-    }
-  }
-
   public async createCar(
     req: Request,
     res: Response,
     next: NextFunction,
   ): Promise<void> {
     try {
-      const car = await carService.createCar(req.body);
+      const { dealerId } = req.res.locals.tokenPayload as ITokenDealerPayload;
+
+      const car = await carService.createCar(req.body, dealerId);
 
       res.status(201).json(car);
     } catch (e) {
@@ -47,22 +39,41 @@ class CarController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      await carService.deleteCar(req.params.carId);
+      const { dealerId } = req.res.locals.tokenPayload as ITokenDealerPayload;
+
+      await carService.deleteCar(req.params.carId, dealerId);
 
       res.sendStatus(204);
     } catch (e) {
       next(e);
     }
   }
+
   public async updateCar(
     req: Request,
     res: Response,
     next: NextFunction,
   ): Promise<void> {
     try {
-      const car = await carService.updateCar(req.params.carId, req.body);
+      const { dealerId } = req.res.locals.tokenPayload as ITokenDealerPayload;
+
+      const car = await carService.updateCar(
+        req.params.carId,
+        req.body,
+        dealerId,
+      );
 
       res.status(201).json(car);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async getById(req: Request, res: Response, next: NextFunction) {
+    try {
+      const car = req.res.locals;
+
+      res.json(car);
     } catch (e) {
       next(e);
     }
