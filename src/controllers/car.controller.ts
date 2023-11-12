@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
+import { UploadedFile } from "express-fileupload";
 
 import { ECity } from "../enums/city.enum";
+import { carPresenter } from "../presenters/car.presenter";
 import { carService } from "../services/car.service";
 import { ICar } from "../types/car.type";
 import { ITokenDealerPayload } from "../types/token-dealer.type";
@@ -96,9 +98,9 @@ class CarController {
     }
   }
   public async getAveragePriceForAllCities(
-      req: Request,
-      res: Response,
-      next: NextFunction,
+    req: Request,
+    res: Response,
+    next: NextFunction,
   ): Promise<void> {
     try {
       const averagePrice = await carService.getAveragePriceForAllCities();
@@ -109,6 +111,23 @@ class CarController {
     }
   }
 
+  public async uploadAvatar(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response<ICar>> {
+    try {
+      const { carId } = req.params;
+      const avatar = req.files.avatar as UploadedFile;
+      const car = await carService.uploadAvatar(avatar, carId);
+
+      const response = carPresenter.present(car);
+
+      return res.json(response);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 export const carController = new CarController();

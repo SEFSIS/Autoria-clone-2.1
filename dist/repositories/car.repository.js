@@ -52,5 +52,10 @@ class CarRepository {
         const averagePrice = totalPrices / cars.length;
         return averagePrice || 0;
     }
+    async updateOneById(carId, dto) {
+        return await Car_model_1.Car.findByIdAndUpdate(carId, dto, {
+            returnDocument: "after",
+        });
+    }
 }
 exports.carRepository = new CarRepository();

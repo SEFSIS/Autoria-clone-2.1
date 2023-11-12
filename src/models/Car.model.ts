@@ -53,6 +53,10 @@ const carSchema = new Schema(
       enum: Object.keys(ECity) as ECityString[],
       required: true,
     },
+      avatar: {
+      type: String,
+
+    },
     views: { type: Number, default: 0 },
     lastViewedAt: { type: Date, default: Date.now },
     dailyViews: { type: Number, default: 0 },

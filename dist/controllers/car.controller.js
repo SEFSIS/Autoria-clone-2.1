@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.carController = void 0;
+const car_presenter_1 = require("../presenters/car.presenter");
 const car_service_1 = require("../services/car.service");
 class CarController {
     async getAll(req, res, next) {
@@ -65,6 +66,18 @@ class CarController {
         try {
             const averagePrice = await car_service_1.carService.getAveragePriceForAllCities();
             res.json({ averagePrice });
+        }
+        catch (e) {
+            next(e);
+        }
+    }
+    async uploadAvatar(req, res, next) {
+        try {
+            const { carId } = req.params;
+            const avatar = req.files.avatar;
+            const car = await car_service_1.carService.uploadAvatar(avatar, carId);
+            const response = car_presenter_1.carPresenter.present(car);
+            return res.json(response);
         }
         catch (e) {
             next(e);

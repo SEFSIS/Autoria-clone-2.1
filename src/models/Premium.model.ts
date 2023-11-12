@@ -1,7 +1,7 @@
 import { model, Schema, Types } from "mongoose";
 
+import { IPremium } from "../types/premium.type";
 import { Dealer } from "./Dealer.model";
-import {IPremium} from "../types/premium.type";
 
 const premiumSchema = new Schema(
   {

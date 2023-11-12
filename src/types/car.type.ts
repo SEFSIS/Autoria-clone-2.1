@@ -13,6 +13,7 @@ export interface ICar extends Document {
   insurance?: boolean;
   price?: number;
   city: ECity;
+  avatar: string;
   views: number;
   lastViewedAt: Date;
   dailyViews: number;

@@ -9,14 +9,17 @@ import { authDealerRouter } from "./routers/auth-dealer.router";
 import { authManagerRouter } from "./routers/auth-manager.router";
 import { carRouter } from "./routers/car.router";
 import { clientRouter } from "./routers/client.router";
+import { currencyRouter } from "./routers/currency.router";
 import { dealerRouter } from "./routers/dealer.router";
 import { managerRouter } from "./routers/manager.router";
 import { premiumRouter } from "./routers/premium.router";
+import fileUpload from "express-fileupload";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload());
 
 app.use("/cars", carRouter);
 app.use("/managers", managerRouter);
@@ -28,6 +31,8 @@ app.use("/auth-client", authClientRouter);
 app.use("/auth-admin", authAdminRouter);
 app.use("/auth-manager", authManagerRouter);
 app.use("/premiums", premiumRouter);
+app.use("/currencies", currencyRouter);
+
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   const status = error.status || 500;

@@ -36,12 +36,15 @@ const auth_dealer_router_1 = require("./routers/auth-dealer.router");
 const auth_manager_router_1 = require("./routers/auth-manager.router");
 const car_router_1 = require("./routers/car.router");
 const client_router_1 = require("./routers/client.router");
+const currency_router_1 = require("./routers/currency.router");
 const dealer_router_1 = require("./routers/dealer.router");
 const manager_router_1 = require("./routers/manager.router");
 const premium_router_1 = require("./routers/premium.router");
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
+app.use((0, express_fileupload_1.default)());
 app.use("/cars", car_router_1.carRouter);
 app.use("/managers", manager_router_1.managerRouter);
 app.use("/admins", admin_router_1.adminRouter);
@@ -52,6 +55,7 @@ app.use("/auth-client", auth_client_router_1.authClientRouter);
 app.use("/auth-admin", auth_admin_router_1.authAdminRouter);
 app.use("/auth-manager", auth_manager_router_1.authManagerRouter);
 app.use("/premiums", premium_router_1.premiumRouter);
+app.use("/currencies", currency_router_1.currencyRouter);
 app.use((error, req, res, next) => {
     const status = error.status || 500;
     res.status(status).json({

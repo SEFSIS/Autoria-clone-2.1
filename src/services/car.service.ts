@@ -1,3 +1,4 @@
+import { UploadedFile } from "express-fileupload";
 
 import { EBrand } from "../enums/brand.enum";
 import { ECity } from "../enums/city.enum";
@@ -6,10 +7,30 @@ import { ApiError } from "../errors/api.error";
 import { carRepository } from "../repositories/car.repository";
 import { ICar } from "../types/car.type";
 import { emailService } from "./email.service";
+import { EFileTypes, s3Service } from "./s3.service";
 
 class CarService {
   public async getAll(): Promise<ICar[]> {
     return await carRepository.getAll();
+  }
+
+  public async uploadAvatar(
+    avatar: UploadedFile,
+    carId: string,
+  ): Promise<ICar> {
+    const car = await carRepository.findById(carId);
+
+    if (car.avatar) {
+      await s3Service.deleteFile(car.avatar);
+    }
+
+    const filePath = await s3Service.uploadFile(avatar, EFileTypes.Car, carId);
+
+    const updatedCar = await carRepository.updateOneById(carId, {
+      avatar: filePath,
+    });
+
+    return updatedCar;
   }
 
   public async createCar(dto: ICar, dealerId: string): Promise<ICar> {

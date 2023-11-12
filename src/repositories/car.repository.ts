@@ -54,7 +54,10 @@ class CarRepository {
       return 0; // Return 0 if there are no cars in the specified city
     }
 
-    const totalPrices: number = cars.reduce((total, car) => total + car.price!, 0);
+    const totalPrices: number = cars.reduce(
+      (total, car) => total + car.price!,
+      0,
+    );
     const averagePrice: number = totalPrices / cars.length;
 
     return averagePrice || 0;
@@ -67,10 +70,22 @@ class CarRepository {
       return 0; // Return 0 if there are no cars with a price greater than 0
     }
 
-    const totalPrices: number = cars.reduce((total, car) => total + car.price!, 0);
+    const totalPrices: number = cars.reduce(
+      (total, car) => total + car.price!,
+      0,
+    );
     const averagePrice: number = totalPrices / cars.length;
 
     return averagePrice || 0;
+  }
+
+  public async updateOneById(
+      carId: string,
+      dto: Partial<ICar>,
+  ): Promise<ICar> {
+    return await Car.findByIdAndUpdate(carId, dto, {
+      returnDocument: "after",
+    });
   }
 }
 

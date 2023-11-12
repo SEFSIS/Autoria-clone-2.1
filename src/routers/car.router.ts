@@ -6,6 +6,7 @@ import { authDealerMiddleware } from "../middlewares/auth-dealer.middleware";
 import { authManagerMiddleware } from "../middlewares/auth-manager.middleware";
 import { carMiddleware } from "../middlewares/car.middleware";
 import { commonMiddleware } from "../middlewares/common.middleware";
+import { fileMiddleware } from "../middlewares/files.middleware";
 import { CarValidator } from "../validators/car.validator";
 
 const router = Router();
@@ -56,8 +57,12 @@ router.delete(
   commonMiddleware.isIdValid("carId"),
   carController.deleteCar,
 );
+router.post(
+  "/:carId/avatar",
+  fileMiddleware.isAvatarValid,
+  carController.uploadAvatar,
+);
+
 router.get("/average-price/all", carController.getAveragePriceForAllCities);
 router.get("/average-price/:city", carController.getAveragePriceByCity);
 export const carRouter = router;
-
-

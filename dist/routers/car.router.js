@@ -8,6 +8,7 @@ const auth_dealer_middleware_1 = require("../middlewares/auth-dealer.middleware"
 const auth_manager_middleware_1 = require("../middlewares/auth-manager.middleware");
 const car_middleware_1 = require("../middlewares/car.middleware");
 const common_middleware_1 = require("../middlewares/common.middleware");
+const files_middleware_1 = require("../middlewares/files.middleware");
 const car_validator_1 = require("../validators/car.validator");
 const router = (0, express_1.Router)();
 router.get("/", car_controller_1.carController.getAll);
@@ -35,6 +36,7 @@ router.delete("/:carId", (req, res, next) => {
         });
     });
 }, auth_dealer_middleware_1.authDealerMiddleware.checkAccessToken, common_middleware_1.commonMiddleware.isIdValid("carId"), car_controller_1.carController.deleteCar);
+router.post("/:carId/avatar", files_middleware_1.fileMiddleware.isAvatarValid, car_controller_1.carController.uploadAvatar);
 router.get("/average-price/all", car_controller_1.carController.getAveragePriceForAllCities);
 router.get("/average-price/:city", car_controller_1.carController.getAveragePriceByCity);
 exports.carRouter = router;

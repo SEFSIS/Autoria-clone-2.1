@@ -51,6 +51,9 @@ const carSchema = new mongoose_1.Schema({
         enum: Object.keys(city_enum_1.ECity),
         required: true,
     },
+    avatar: {
+        type: String,
+    },
     views: { type: Number, default: 0 },
     lastViewedAt: { type: Date, default: Date.now },
     dailyViews: { type: Number, default: 0 },
