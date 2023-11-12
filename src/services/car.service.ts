@@ -1,8 +1,11 @@
+
+import { EBrand } from "../enums/brand.enum";
+import { ECity } from "../enums/city.enum";
+import { EEmailAction } from "../enums/email.enum";
 import { ApiError } from "../errors/api.error";
 import { carRepository } from "../repositories/car.repository";
 import { ICar } from "../types/car.type";
-import {ECity} from "../enums/city.enum";
-
+import { emailService } from "./email.service";
 
 class CarService {
   public async getAll(): Promise<ICar[]> {
@@ -10,7 +13,26 @@ class CarService {
   }
 
   public async createCar(dto: ICar, dealerId: string): Promise<ICar> {
-    return await carRepository.createCar(dto, dealerId);
+    const { brand } = dto;
+
+    // Параметри для відправки листа
+    const emailAction = EEmailAction.NOTBRAND;
+    const context = { message: "Такої моделі нема" };
+
+    try {
+      if (!Object.values(EBrand).includes(brand)) {
+        // Якщо бренд не в списку дозволених, відправляємо листа
+        await emailService.sendMail(emailAction, context);
+      }
+
+      // Спробувати створити автомобіль
+      return await carRepository.createCar(dto, dealerId);
+    } catch (error) {
+      // Обробка помилок при створенні автомобіля
+      // Якщо виникає помилка, надішліть електронний лист і прокиньте її вгору
+      await emailService.sendMail(emailAction, context);
+      throw error;
+    }
   }
 
   public async updateCar(

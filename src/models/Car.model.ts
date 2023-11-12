@@ -6,6 +6,7 @@ import { EStatus } from "../enums/status.enum";
 import { ICar } from "../types/car.type";
 import { Dealer } from "./Dealer.model";
 
+
 const carSchema = new Schema(
   {
     brand: {

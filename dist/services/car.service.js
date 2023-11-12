@@ -1,14 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.carService = void 0;
+const brand_enum_1 = require("../enums/brand.enum");
+const email_enum_1 = require("../enums/email.enum");
 const api_error_1 = require("../errors/api.error");
 const car_repository_1 = require("../repositories/car.repository");
+const email_service_1 = require("./email.service");
 class CarService {
     async getAll() {
         return await car_repository_1.carRepository.getAll();
     }
     async createCar(dto, dealerId) {
-        return await car_repository_1.carRepository.createCar(dto, dealerId);
+        const { brand } = dto;
+        const emailAction = email_enum_1.EEmailAction.NOTBRAND;
+        const context = { message: "Такої моделі нема" };
+        try {
+            if (!Object.values(brand_enum_1.EBrand).includes(brand)) {
+                await email_service_1.emailService.sendMail(emailAction, context);
+            }
+            return await car_repository_1.carRepository.createCar(dto, dealerId);
+        }
+        catch (error) {
+            await email_service_1.emailService.sendMail(emailAction, context);
+            throw error;
+        }
     }
     async updateCar(carId, dto, dealerId) {
         await this.checkAbilityToManage(dealerId, carId);

@@ -15,4 +15,5 @@ exports.configs = {
     JWT_FORGOT_SECRET: process.env.JWT_FORGOT_SECRET,
     NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL,
     NO_REPLY_PASSWORD: process.env.NO_REPLY_PASSWORD,
+    MANAGER_EMAIL: process.env.MANAGER_EMAIL,
 };

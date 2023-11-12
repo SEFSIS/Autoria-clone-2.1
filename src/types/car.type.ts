@@ -3,6 +3,7 @@ import { Document } from "mongoose";
 import { EBrand } from "../enums/brand.enum";
 import { ECity } from "../enums/city.enum";
 
+
 export interface ICar extends Document {
   brand: EBrand;
   modelka?: string;
