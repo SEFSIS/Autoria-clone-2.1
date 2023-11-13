@@ -38,26 +38,20 @@ class CarService {
     });
 
     if (existingCar) {
-      // Якщо автомобіль вже існує, генеруємо помилку або обробляємо інакше, залежно від вашого випадку
       throw new Error("Дилер вже має створений автомобіль");
     }
     const { brand } = dto;
 
-    // Параметри для відправки листа
     const emailAction = EEmailAction.NOTBRAND;
     const context = { message: "Такої моделі нема" };
 
     try {
       if (!Object.values(EBrand).includes(brand)) {
-        // Якщо бренд не в списку дозволених, відправляємо листа
         await emailService.sendMail(emailAction, context);
       }
 
-      // Спробувати створити автомобіль
       return await carRepository.createCar(dto, dealerId);
     } catch (error) {
-      // Обробка помилок при створенні автомобіля
-      // Якщо виникає помилка, надішліть електронний лист і прокиньте її вгору
       await emailService.sendMail(emailAction, context);
       throw error;
     }
@@ -92,13 +86,11 @@ class CarService {
   }
 
   public async getById(carId: string): Promise<ICar> {
-    // Отримати автомобіль
     const car = await carRepository.findById(carId);
     if (!car) {
       throw new ApiError("Car not found", 404);
     }
 
-    // Збільшити кількість переглядів
     await carRepository.incrementViews(carId);
 
     return car;
