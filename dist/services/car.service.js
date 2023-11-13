@@ -23,6 +23,12 @@ class CarService {
         return updatedCar;
     }
     async createCar(dto, dealerId) {
+        const existingCar = await car_repository_1.carRepository.getOneByParams({
+            _dealerId: dealerId,
+        });
+        if (existingCar) {
+            throw new Error("Дилер вже має створений автомобіль");
+        }
         const { brand } = dto;
         const emailAction = email_enum_1.EEmailAction.NOTBRAND;
         const context = { message: "Такої моделі нема" };
@@ -62,12 +68,6 @@ class CarService {
         }
         await car_repository_1.carRepository.incrementViews(carId);
         return car;
-    }
-    async getAveragePriceByCity(city) {
-        return await car_repository_1.carRepository.getAveragePriceByCity(city);
-    }
-    async getAveragePriceForAllCities() {
-        return await car_repository_1.carRepository.getAveragePriceForAllCities();
     }
 }
 exports.carService = new CarService();

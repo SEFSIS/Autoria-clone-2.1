@@ -3,30 +3,26 @@ import * as jwt from "jsonwebtoken";
 import { configs } from "../configs/config";
 import { ApiError } from "../errors/api.error";
 import {
-  ITokenDealerPayload,
-  ITokensDealerPair,
+  INewTokenPremiumPayload,
+  INewTokensPremiumPair,
 } from "../types/token-dealer.type";
 
-class TokenDealerService {
-  public generateTokenDealerPair(
-    payload: ITokenDealerPayload,
-  ): ITokensDealerPair {
-    const accessToken = jwt.sign(payload, configs.JWT_ACCESS_SECRET, {
+class TokenPremiumService {
+  public generateTokenPremiumPair(
+    payload: INewTokenPremiumPayload,
+  ): INewTokensPremiumPair {
+    const newAccessToken = jwt.sign(payload, configs.JWT_ACCESS_SECRET, {
       expiresIn: "4h",
-    });
-    const refreshToken = jwt.sign(payload, configs.JWT_REFRESH_SECRET, {
-      expiresIn: "30d",
     });
 
     return {
-      accessToken,
-      refreshToken,
+      newAccessToken,
     };
   }
   public checkToken(
     token: string,
     type: "access" | "refresh",
-  ): ITokenDealerPayload {
+  ): INewTokenPremiumPayload {
     try {
       let secret: string;
 
@@ -39,10 +35,10 @@ class TokenDealerService {
           break;
       }
 
-      return jwt.verify(token, secret) as ITokenDealerPayload;
+      return jwt.verify(token, secret) as INewTokenPremiumPayload;
     } catch (e) {
       throw new ApiError("Token not valid!", 401);
     }
   }
 }
-export const tokenDealerService = new TokenDealerService();
+export const tokenPremiumService = new TokenPremiumService();

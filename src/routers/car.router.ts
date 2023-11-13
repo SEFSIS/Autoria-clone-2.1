@@ -53,7 +53,6 @@ router.delete(
       });
     });
   },
-  authDealerMiddleware.checkAccessToken,
   commonMiddleware.isIdValid("carId"),
   carController.deleteCar,
 );
@@ -62,7 +61,4 @@ router.post(
   fileMiddleware.isAvatarValid,
   carController.uploadAvatar,
 );
-
-router.get("/average-price/all", carController.getAveragePriceForAllCities);
-router.get("/average-price/:city", carController.getAveragePriceByCity);
 export const carRouter = router;

@@ -35,8 +35,6 @@ router.delete("/:carId", (req, res, next) => {
             auth_admin_middleware_1.authAdminMiddleware.checkAccessToken(req, res, next);
         });
     });
-}, auth_dealer_middleware_1.authDealerMiddleware.checkAccessToken, common_middleware_1.commonMiddleware.isIdValid("carId"), car_controller_1.carController.deleteCar);
+}, common_middleware_1.commonMiddleware.isIdValid("carId"), car_controller_1.carController.deleteCar);
 router.post("/:carId/avatar", files_middleware_1.fileMiddleware.isAvatarValid, car_controller_1.carController.uploadAvatar);
-router.get("/average-price/all", car_controller_1.carController.getAveragePriceForAllCities);
-router.get("/average-price/:city", car_controller_1.carController.getAveragePriceByCity);
 exports.carRouter = router;

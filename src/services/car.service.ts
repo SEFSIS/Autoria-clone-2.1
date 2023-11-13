@@ -1,7 +1,6 @@
 import { UploadedFile } from "express-fileupload";
 
 import { EBrand } from "../enums/brand.enum";
-import { ECity } from "../enums/city.enum";
 import { EEmailAction } from "../enums/email.enum";
 import { ApiError } from "../errors/api.error";
 import { carRepository } from "../repositories/car.repository";
@@ -34,6 +33,14 @@ class CarService {
   }
 
   public async createCar(dto: ICar, dealerId: string): Promise<ICar> {
+    const existingCar = await carRepository.getOneByParams({
+      _dealerId: dealerId,
+    });
+
+    if (existingCar) {
+      // Якщо автомобіль вже існує, генеруємо помилку або обробляємо інакше, залежно від вашого випадку
+      throw new Error("Дилер вже має створений автомобіль");
+    }
     const { brand } = dto;
 
     // Параметри для відправки листа
@@ -95,14 +102,6 @@ class CarService {
     await carRepository.incrementViews(carId);
 
     return car;
-  }
-
-  public async getAveragePriceByCity(city: ECity): Promise<number> {
-    return await carRepository.getAveragePriceByCity(city);
-  }
-
-  public async getAveragePriceForAllCities(): Promise<number> {
-    return await carRepository.getAveragePriceForAllCities();
   }
 }
 

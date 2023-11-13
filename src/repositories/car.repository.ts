@@ -79,10 +79,7 @@ class CarRepository {
     return averagePrice || 0;
   }
 
-  public async updateOneById(
-      carId: string,
-      dto: Partial<ICar>,
-  ): Promise<ICar> {
+  public async updateOneById(carId: string, dto: Partial<ICar>): Promise<ICar> {
     return await Car.findByIdAndUpdate(carId, dto, {
       returnDocument: "after",
     });

@@ -4,9 +4,12 @@ import { TokenDealer } from "../models/Token-dealer.model";
 import { ITokenDealer } from "../types/token-dealer.type";
 
 export class TokenDealerRepository {
-  public async create(dto: Partial<ITokenDealer>): Promise<ITokenDealer> {
+  public async createTokenDealer(
+    dto: Partial<ITokenDealer>,
+  ): Promise<ITokenDealer> {
     return (await TokenDealer.create(dto)) as ITokenDealer;
   }
+
   public async findOne(
     params: FilterQuery<ITokenDealer>,
   ): Promise<ITokenDealer> {

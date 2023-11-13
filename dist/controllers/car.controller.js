@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.carController = void 0;
 const car_presenter_1 = require("../presenters/car.presenter");
 const car_service_1 = require("../services/car.service");
+const premium_service_1 = require("../services/premium.service");
 class CarController {
     async getAll(req, res, next) {
         try {
@@ -55,7 +56,7 @@ class CarController {
     async getAveragePriceByCity(req, res, next) {
         try {
             const { city } = req.params;
-            const averagePrice = await car_service_1.carService.getAveragePriceByCity(city);
+            const averagePrice = await premium_service_1.premiumService.getAveragePriceByCity(city);
             res.json({ averagePrice });
         }
         catch (e) {
@@ -64,7 +65,7 @@ class CarController {
     }
     async getAveragePriceForAllCities(req, res, next) {
         try {
-            const averagePrice = await car_service_1.carService.getAveragePriceForAllCities();
+            const averagePrice = await premium_service_1.premiumService.getAveragePriceForAllCities();
             res.json({ averagePrice });
         }
         catch (e) {

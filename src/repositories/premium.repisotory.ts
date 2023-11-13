@@ -1,7 +1,8 @@
 import { FilterQuery } from "mongoose";
 
 import { Premium } from "../models/Premium.model";
-import { IPremium } from "../types/premium.type";
+import {IPremium} from "../types/premium.type";
+
 
 class PremiumRepository {
   public async getAll(): Promise<IPremium[]> {
@@ -15,6 +16,7 @@ class PremiumRepository {
       await Premium.create({ ...dto, _dealerId: dealerId })
     ).populate("_dealerId");
   }
+
 
   public async getOneByParams(
     params: FilterQuery<IPremium>,

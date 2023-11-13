@@ -18,4 +18,4 @@ export interface IDealer extends Document {
   status?: EStatus;
 }
 
-export type IDealerCredentials = Pick<IDealer, "email" | "password">;
+export type IDealerCredentials = Pick<IDealer, "name" |"email" | "password">;

@@ -1,6 +1,6 @@
 import { model, Schema, Types } from "mongoose";
 
-import { ITokenDealer } from "../types/token-dealer.type";
+import {INewTokenPremium, ITokenDealer} from "../types/token-dealer.type";
 import { Dealer } from "./Dealer.model";
 
 const tokensDealerSchema = new Schema(
@@ -22,4 +22,26 @@ const tokensDealerSchema = new Schema(
   { timestamps: true, versionKey: false },
 );
 
-export const TokenDealer = model<ITokenDealer>("token-dealer", tokensDealerSchema);
+export const TokenDealer = model<ITokenDealer>(
+  "token-dealer",
+  tokensDealerSchema,
+);
+const newTokensDealerSchema = new Schema(
+  {
+    newAccessToken: {
+      type: String,
+      required: true,
+    },
+    _dealerId: {
+      type: Types.ObjectId,
+      required: true,
+      ref: Dealer,
+    },
+  },
+  { timestamps: true, versionKey: false },
+);
+
+export const NewTokenPremium = model<INewTokenPremium>(
+  "token-premium",
+  newTokensDealerSchema,
+);

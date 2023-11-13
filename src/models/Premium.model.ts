@@ -5,6 +5,10 @@ import { Dealer } from "./Dealer.model";
 
 const premiumSchema = new Schema(
   {
+    password: {
+      type: String,
+      required: true,
+    },
     bank_card: {
       type: String,
       required: true,

@@ -6,6 +6,7 @@ import { carPresenter } from "../presenters/car.presenter";
 import { carService } from "../services/car.service";
 import { ICar } from "../types/car.type";
 import { ITokenDealerPayload } from "../types/token-dealer.type";
+import {premiumService} from "../services/premium.service";
 
 class CarController {
   public async getAll(
@@ -88,7 +89,7 @@ class CarController {
   ): Promise<void> {
     try {
       const { city } = req.params;
-      const averagePrice = await carService.getAveragePriceByCity(
+      const averagePrice = await premiumService.getAveragePriceByCity(
         city as ECity,
       );
 
@@ -103,7 +104,7 @@ class CarController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const averagePrice = await carService.getAveragePriceForAllCities();
+      const averagePrice = await premiumService.getAveragePriceForAllCities();
 
       res.json({ averagePrice });
     } catch (e) {

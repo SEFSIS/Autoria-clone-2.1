@@ -33,7 +33,7 @@ class AuthDealerService {
                 dealerId: dealer._id.toString(),
                 name: dealer.name,
             });
-            await token_dealer_repository_1.tokenDealerRepository.create({
+            await token_dealer_repository_1.tokenDealerRepository.createTokenDealer({
                 ...tokensDealerPair,
                 _dealerId: dealer._id,
             });
@@ -50,7 +50,7 @@ class AuthDealerService {
                 name: payload.name,
             });
             await Promise.all([
-                token_dealer_repository_1.tokenDealerRepository.create({
+                token_dealer_repository_1.tokenDealerRepository.createTokenDealer({
                     ...tokensPair,
                     _dealerId: new mongodb_1.ObjectId(payload.dealerId),
                 }),
