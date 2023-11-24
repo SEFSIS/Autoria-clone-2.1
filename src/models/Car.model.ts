@@ -1,11 +1,9 @@
-import { model, Schema, Types } from "mongoose";
+import { model, Schema} from "mongoose";
 
 import { EBrand } from "../enums/brand.enum";
 import { ECity, ECityString } from "../enums/city.enum";
 import { EStatus } from "../enums/status.enum";
 import { ICar } from "../types/car.type";
-import { Dealer } from "./Dealer.model";
-
 
 const carSchema = new Schema(
   {
@@ -43,19 +41,10 @@ const carSchema = new Schema(
       enum: EStatus,
       default: EStatus.active,
     },
-    _dealerId: {
-      type: Types.ObjectId,
-      required: true,
-      ref: Dealer,
-    },
     city: {
       type: String,
       enum: Object.keys(ECity) as ECityString[],
       required: true,
-    },
-      avatar: {
-      type: String,
-
     },
     views: { type: Number, default: 0 },
     lastViewedAt: { type: Date, default: Date.now },

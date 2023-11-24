@@ -9,7 +9,6 @@ class CarMiddleware {
       const { carId } = req.params;
 
       const car = await carRepository.findById(carId);
-
       if (!car) {
         throw new ApiError("Car not found", 404);
       }
