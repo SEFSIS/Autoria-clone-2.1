@@ -1,13 +1,21 @@
 import { Document } from "mongoose";
 
+import { ECity } from "../enums/city.enum";
 import { EGenders } from "../enums/gender.enum";
+import { EStatus } from "../enums/status.enum";
 
 export interface IUser extends Document {
   name?: string;
+  surname?: string;
   age?: number;
-  genders?: EGenders;
-  email: string;
-  password: string;
+  gender?: EGenders;
+  email?: string;
+  phone?: string;
+  city?: ECity;
+  sole_trader?: boolean;
+  vat_id?: string;
+  password?: string;
+  status?: EStatus;
 }
 
 export type IUserCredentials = Pick<IUser, "email" | "password">;

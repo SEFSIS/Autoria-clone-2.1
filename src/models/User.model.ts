@@ -1,6 +1,8 @@
 import { model, Schema } from "mongoose";
 
+import { ECity } from "../enums/city.enum";
 import { EGenders } from "../enums/gender.enum";
+import { EStatus } from "../enums/status.enum";
 import { IUser } from "../types/user.type";
 
 const userSchema = new Schema(
@@ -8,12 +10,15 @@ const userSchema = new Schema(
     name: {
       type: String,
     },
+    surname: {
+      type: String,
+    },
     age: {
       type: Number,
       min: [1, "Minimum age is 1"],
       max: [199, "Maximum age is 199"],
     },
-    genders: {
+    gender: {
       type: String,
       enum: EGenders,
     },
@@ -24,9 +29,33 @@ const userSchema = new Schema(
       unique: true,
       trim: true,
     },
+    phone: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
+    city: {
+      type: String,
+      enum: ECity,
+    },
+    sole_trader: {
+      type: Boolean,
+      required: true,
+    },
+    vat_id: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     password: {
       type: String,
       required: true,
+    },
+    status: {
+      type: String,
+      enum: EStatus,
+      required: true,
+      default: EStatus.active,
     },
   },
   {
