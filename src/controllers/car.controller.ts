@@ -72,7 +72,22 @@ class CarController {
     try {
       const car = req.res.locals;
 
+      await carService.incrementViews(car._id); // Збільшуємо кількість переглядів
       res.json(car);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async getAllPopular(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response<ICar[]>> {
+    try {
+      const cars = await carService.getMostViewedCars();
+
+      return res.json(cars);
     } catch (e) {
       next(e);
     }

@@ -9,6 +9,7 @@ const common_middleware_1 = require("../middlewares/common.middleware");
 const car_validator_1 = require("../validators/car.validator");
 const router = (0, express_1.Router)();
 router.get("/", car_controller_1.carController.getAll);
+router.get("/popular", car_controller_1.carController.getAllPopular);
 router.post("/", auth_middleware_1.authMiddleware.checkAccessToken, auth_middleware_1.authMiddleware.checkUserOnly, common_middleware_1.commonMiddleware.isBodyValid(car_validator_1.CarValidator.create), car_controller_1.carController.createCar);
 router.get("/:carId", common_middleware_1.commonMiddleware.isIdValid("carId"), car_middleware_1.carMiddleware.getByIdOrThrow, car_controller_1.carController.getById);
 router.put("/:carId", auth_middleware_1.authMiddleware.checkAccessToken, common_middleware_1.commonMiddleware.isIdValid("carId"), common_middleware_1.commonMiddleware.isBodyValid(car_validator_1.CarValidator.update), car_controller_1.carController.updateCar);

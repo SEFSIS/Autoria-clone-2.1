@@ -45,7 +45,17 @@ class CarController {
     async getById(req, res, next) {
         try {
             const car = req.res.locals;
+            await car_service_1.carService.incrementViews(car._id);
             res.json(car);
+        }
+        catch (e) {
+            next(e);
+        }
+    }
+    async getAllPopular(req, res, next) {
+        try {
+            const cars = await car_service_1.carService.getMostViewedCars();
+            return res.json(cars);
         }
         catch (e) {
             next(e);

@@ -45,6 +45,20 @@ class CarService {
       _id: manageCarId,
     });
   }
+
+  public async incrementViews(carId: string): Promise<void> {
+    await carRepository.incrementViews(carId);
+  }
+
+  public async getMostViewedCars(): Promise<ICar[]> {
+    try {
+      const mostViewedCars = await (await carRepository.getAll()).sort((a, b) => b.views - a.views);
+      return mostViewedCars;
+    } catch (error) {
+      console.error("Error getting most viewed cars:", error);
+      return [];
+    }
+  }
 }
 
 export const carService = new CarService();

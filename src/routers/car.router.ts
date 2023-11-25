@@ -9,6 +9,9 @@ import { CarValidator } from "../validators/car.validator";
 const router = Router();
 
 router.get("/", carController.getAll);
+
+router.get("/popular", carController.getAllPopular);
+
 router.post(
   "/",
   authMiddleware.checkAccessToken,

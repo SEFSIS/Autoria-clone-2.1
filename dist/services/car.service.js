@@ -33,5 +33,18 @@ class CarService {
             _id: manageCarId,
         });
     }
+    async incrementViews(carId) {
+        await car_repository_1.carRepository.incrementViews(carId);
+    }
+    async getMostViewedCars() {
+        try {
+            const mostViewedCars = await (await car_repository_1.carRepository.getAll()).sort((a, b) => b.views - a.views);
+            return mostViewedCars;
+        }
+        catch (error) {
+            console.error("Error getting most viewed cars:", error);
+            return [];
+        }
+    }
 }
 exports.carService = new CarService();
