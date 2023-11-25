@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 
+import { EStatus } from "../enums/status.enum";
+import { carPresenter } from "../presenters/car.presenter";
+import { carPresenterPremium } from "../presenters/car.presenter.premium";
 import { carService } from "../services/car.service";
 import { ICar } from "../types/car.type";
 import { ITokenPayload } from "../types/token.type";
@@ -13,11 +16,23 @@ class CarController {
     try {
       const cars = await carService.getAll();
 
-      return res.json(cars);
+      const payload = req.res.locals.tokenPayload;
+      const userStatus = payload?.status;
+
+      let formattedCars;
+
+      if (userStatus !== EStatus.premium) {
+        formattedCars = cars.map((car) => carPresenter.present(car));
+      } else {
+        formattedCars = cars.map((car) => carPresenterPremium.present(car));
+      }
+
+      return res.json(formattedCars);
     } catch (e) {
       next(e);
     }
   }
+
   public async createCar(
     req: Request,
     res: Response,
@@ -72,7 +87,8 @@ class CarController {
     try {
       const car = req.res.locals;
 
-      await carService.incrementViews(car._id); // Збільшуємо кількість переглядів
+      await carService.incrementViews(car._id);
+
       res.json(car);
     } catch (e) {
       next(e);

@@ -1,12 +1,24 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.carController = void 0;
+const status_enum_1 = require("../enums/status.enum");
+const car_presenter_1 = require("../presenters/car.presenter");
+const car_presenter_premium_1 = require("../presenters/car.presenter.premium");
 const car_service_1 = require("../services/car.service");
 class CarController {
     async getAll(req, res, next) {
         try {
             const cars = await car_service_1.carService.getAll();
-            return res.json(cars);
+            const payload = req.res.locals.tokenPayload;
+            const userStatus = payload?.status;
+            let formattedCars;
+            if (userStatus !== status_enum_1.EStatus.premium) {
+                formattedCars = cars.map((car) => car_presenter_1.carPresenter.present(car));
+            }
+            else {
+                formattedCars = cars.map((car) => car_presenter_premium_1.carPresenterPremium.present(car));
+            }
+            return res.json(formattedCars);
         }
         catch (e) {
             next(e);

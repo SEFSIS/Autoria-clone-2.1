@@ -8,7 +8,7 @@ import { CarValidator } from "../validators/car.validator";
 
 const router = Router();
 
-router.get("/", carController.getAll);
+router.get("/", authMiddleware.checkAccessToken, carController.getAll);
 
 router.get(
   "/popular",
@@ -40,6 +40,8 @@ router.post(
 
 router.get(
   "/:carId",
+  authMiddleware.checkAccessToken,
+  authMiddleware.checkPremium,
   commonMiddleware.isIdValid("carId"),
   carMiddleware.getByIdOrThrow,
   carController.getById,

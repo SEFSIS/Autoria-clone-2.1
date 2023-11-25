@@ -1,7 +1,8 @@
-import { Document } from "mongoose";
+import {Document, Types} from "mongoose";
 
 import { EBrand } from "../enums/brand.enum";
 import { ECity } from "../enums/city.enum";
+import {IUser} from "./user.type";
 
 export interface ICar extends Document {
   brand: EBrand;
@@ -12,6 +13,7 @@ export interface ICar extends Document {
   insurance?: boolean;
   price?: number;
   city: ECity;
+  _userId: Types.ObjectId | IUser['_id'];
   views: number;
   lastViewedAt: Date;
   dailyViews: number;
