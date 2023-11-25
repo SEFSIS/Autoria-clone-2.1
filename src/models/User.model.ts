@@ -48,11 +48,15 @@ const userSchema = new Schema(
       enum: ERoles,
       required: true,
     },
+    wallet: {
+      type: Number,
+      required: true,
+    },
     status: {
       type: String,
       enum: EStatus,
       required: true,
-      default: EStatus.active,
+      default: EStatus.base,
     },
   },
   {

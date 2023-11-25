@@ -16,6 +16,7 @@ export interface IUser extends Document {
   city?: ECity;
   role?: ERoles;
   status?: EStatus;
+  wallet?: number;
 }
 
-export type IUserCredentials = Pick<IUser, "name"| "role" | "email" | "password">;
+export type IUserCredentials = Pick<IUser, "status"|"wallet"|"name"| "role" | "email" | "password">;

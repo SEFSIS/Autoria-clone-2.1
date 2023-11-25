@@ -4,7 +4,6 @@ exports.Car = void 0;
 const mongoose_1 = require("mongoose");
 const brand_enum_1 = require("../enums/brand.enum");
 const city_enum_1 = require("../enums/city.enum");
-const status_enum_1 = require("../enums/status.enum");
 const User_model_1 = require("./User.model");
 const carSchema = new mongoose_1.Schema({
     brand: {
@@ -35,11 +34,6 @@ const carSchema = new mongoose_1.Schema({
     price: {
         type: Number,
         required: true,
-    },
-    status: {
-        type: String,
-        enum: status_enum_1.EStatus,
-        default: status_enum_1.EStatus.active,
     },
     city: {
         type: String,

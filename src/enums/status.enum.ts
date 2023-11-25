@@ -1,4 +1,4 @@
 export enum EStatus {
-  active = "active",
-  inactive = "inactive",
+  premium = "premium",
+  base = "base",
 }

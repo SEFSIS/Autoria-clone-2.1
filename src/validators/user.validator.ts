@@ -26,6 +26,7 @@ export class UserValidator {
     phone: this.phone,
     email: this.email,
   });
+  static wallet = joi.number().min(1).max(1000000);
 
   static register = joi.object({
     name: this.firstName.required(),
@@ -37,6 +38,7 @@ export class UserValidator {
     password: this.password.required(),
     city: this.city.required(),
     phone: this.phone.required(),
+    wallet: this.wallet.required(),
   });
 
   static login = joi.object({
