@@ -123,12 +123,23 @@ class AuthService {
       if (!entity) {
         throw new ApiError("Not valid token", 400);
       }
+
+      const user = await userRepository.findById(payload.userId);
+      if (!user) {
+        throw new ApiError("User not found", 404);
+      }
+
+      if (user.wallet < 1000) {
+        throw new ApiError("No money to activate premium account", 400);
+      }
+
       await Promise.all([
         actionTokenRepository.deleteManyByUserIdAndType(
           payload.userId,
           EActionTokenType.activate,
         ),
         userRepository.setStatus(payload.userId, EStatus.premium),
+        userRepository.updateWallet(payload.userId, -1000),
       ]);
     } catch (e) {
       throw new ApiError(e.message, e.status);

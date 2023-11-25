@@ -34,6 +34,10 @@ class UserRepository {
   public async setStatus(userId: string, status: any): Promise<void> {
     await User.updateOne({ _id: userId }, { $set: { status } });
   }
+
+  async updateWallet(userId: string, amount: number): Promise<void> {
+    await User.updateOne({ _id: userId }, { $inc: { wallet: amount } });
+  }
 }
 
 export const userRepository = new UserRepository();
