@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 import { userService } from "../services/user.service";
+import {ITokenPayload} from "../types/token.type";
 import { IUser } from "../types/user.type";
 
 class UserController {
@@ -49,6 +50,17 @@ class UserController {
   public async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const user = req.res.locals;
+
+      res.json(user);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async getMe(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId } = req.res.locals.tokenPayload as ITokenPayload;
+      const user = await userService.getMe(userId);
 
       res.json(user);
     } catch (e) {

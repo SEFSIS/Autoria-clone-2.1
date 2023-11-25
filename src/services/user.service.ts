@@ -13,6 +13,10 @@ class UserService {
   public async deleteUser(userId: string): Promise<void> {
     await userRepository.deleteUser(userId);
   }
+
+  public async getMe(userId: string): Promise<IUser> {
+    return await userRepository.findById(userId);
+  }
 }
 
 export const userService = new UserService();

@@ -16,6 +16,8 @@ router.get(
   userController.getAll,
 );
 
+router.get("/me", authMiddleware.checkAccessToken, userController.getMe);
+
 router.post(
   "/create-manager",
   authMiddleware.checkAccessToken,
