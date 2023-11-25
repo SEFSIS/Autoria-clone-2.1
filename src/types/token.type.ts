@@ -3,8 +3,9 @@ import { Document, Types } from "mongoose";
 import { IUser } from "./user.type";
 
 export interface ITokenPayload {
-  userId: Types.ObjectId;
-  name: string;
+  userId?: string;
+  name?: string;
+  role?: string;
 }
 
 export interface ITokensPair {

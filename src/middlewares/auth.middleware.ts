@@ -1,10 +1,48 @@
 import { NextFunction, Request, Response } from "express";
 
+import { ERoles } from "../enums/role.enum";
 import { ApiError } from "../errors/api.error";
 import { tokenRepository } from "../repositories/token.repository";
 import { tokenService } from "../services/token.service";
 
 class AuthMiddleware {
+  // public async checkAccessToken(
+  //   req: Request,
+  //   res: Response,
+  //   next: NextFunction,
+  // ) {
+  //   try {
+  //     const accessToken = req.get("Authorization");
+  //
+  //     if (!accessToken) {
+  //       throw new ApiError("No Token!", 401);
+  //     }
+  //
+  //     const entity = await tokenRepository.findOne({ accessToken });
+  //
+  //     if (!entity) {
+  //       throw new ApiError("Token not valid!", 401);
+  //     }
+  //
+  //     const payload = tokenService.checkToken(accessToken, "access");
+  //     const userRole = payload.role;
+  //
+  //     if (userRole !== ERoles.Manager && userRole !== ERoles.Admin) {
+  //       throw new ApiError(
+  //         "Access denied. Only managers and admins are allowed.",
+  //         403,
+  //       );
+  //     }
+  //
+  //     req.res.locals.tokenPayload = payload;
+  //     req.res.locals.accessToken = accessToken;
+  //     next();
+  //   } catch (e) {
+  //     next(e);
+  //   }
+  // }
+
+  // Перевірка наявності та валідності токену
   public async checkAccessToken(
     req: Request,
     res: Response,
@@ -17,16 +55,35 @@ class AuthMiddleware {
         throw new ApiError("No Token!", 401);
       }
 
-      const payload = tokenService.checkToken(accessToken, "access");
-
       const entity = await tokenRepository.findOne({ accessToken });
 
       if (!entity) {
         throw new ApiError("Token not valid!", 401);
       }
 
+      const payload = tokenService.checkToken(accessToken, "access");
       req.res.locals.tokenPayload = payload;
       req.res.locals.accessToken = accessToken;
+
+      next();
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  // Перевірка ролі користувача
+  public async checkUserRole(req: Request, res: Response, next: NextFunction) {
+    try {
+      const payload = req.res.locals.tokenPayload;
+      const userRole = payload.role;
+
+      if (userRole !== ERoles.Manager && userRole !== ERoles.Admin) {
+        throw new ApiError(
+          "Access denied. Only managers and admins are allowed.",
+          403,
+        );
+      }
+
       next();
     } catch (e) {
       next(e);

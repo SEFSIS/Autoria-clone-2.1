@@ -14,6 +14,7 @@ router.post(
   userMiddleware.isEmailUniq,
   authController.register,
 );
+
 router.post(
   "/login",
   commonMiddleware.isBodyValid(UserValidator.login),

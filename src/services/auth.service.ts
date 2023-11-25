@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+
 import { ApiError } from "../errors/api.error";
 import { tokenRepository } from "../repositories/token.repository";
 import { userRepository } from "../repositories/user.repository";
@@ -34,6 +36,7 @@ class AuthService {
       const tokensPair = tokenService.generateTokenPair({
         userId: user._id,
         name: user.name,
+        role: user.role,
       });
       await tokenRepository.create({ ...tokensPair, _userId: user._id });
 
@@ -54,7 +57,10 @@ class AuthService {
       });
 
       await Promise.all([
-        tokenRepository.create({ ...tokensPair, _userId: payload.userId }),
+        tokenRepository.create({
+          ...tokensPair,
+          _userId: new ObjectId(payload.userId),
+        }),
         tokenRepository.deleteOne({ refreshToken }),
       ]);
 

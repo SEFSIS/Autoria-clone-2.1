@@ -14,6 +14,7 @@ exports.ManagerValidator = ManagerValidator;
 _a = ManagerValidator;
 ManagerValidator.firstName = joi_1.default.string().min(3).max(20).trim();
 ManagerValidator.surname = joi_1.default.string().min(3).max(20).trim();
+ManagerValidator.role = joi_1.default.string().min(3).max(20).trim();
 ManagerValidator.age = joi_1.default.number().min(18).max(150);
 ManagerValidator.gender = joi_1.default.valid(...Object.values(gender_enum_1.EGenders));
 ManagerValidator.phone = joi_1.default.string().regex(regex_constant_1.regexConstant.PHONE);
@@ -28,6 +29,7 @@ ManagerValidator.password = joi_1.default.string().regex(regex_constant_1.regexC
 ManagerValidator.register = joi_1.default.object({
     name: _a.firstName.required(),
     surname: _a.surname.required(),
+    role: _a.role.required(),
     age: _a.age.required(),
     gender: _a.gender.required(),
     phone: _a.phone.required(),

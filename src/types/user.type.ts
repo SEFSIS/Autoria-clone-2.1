@@ -2,6 +2,7 @@ import { Document } from "mongoose";
 
 import { ECity } from "../enums/city.enum";
 import { EGenders } from "../enums/gender.enum";
+import { ERoles } from "../enums/role.enum";
 import { EStatus } from "../enums/status.enum";
 
 export interface IUser extends Document {
@@ -10,12 +11,11 @@ export interface IUser extends Document {
   age?: number;
   gender?: EGenders;
   email?: string;
+  password?: string;
   phone?: string;
   city?: ECity;
-  sole_trader?: boolean;
-  vat_id?: string;
-  password?: string;
+  role?: ERoles;
   status?: EStatus;
 }
 
-export type IUserCredentials = Pick<IUser, "email" | "password">;
+export type IUserCredentials = Pick<IUser, "role" | "email" | "password">;

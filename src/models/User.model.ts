@@ -2,6 +2,7 @@ import { model, Schema } from "mongoose";
 
 import { ECity } from "../enums/city.enum";
 import { EGenders } from "../enums/gender.enum";
+import { ERoles } from "../enums/role.enum";
 import { EStatus } from "../enums/status.enum";
 import { IUser } from "../types/user.type";
 
@@ -38,17 +39,13 @@ const userSchema = new Schema(
       type: String,
       enum: ECity,
     },
-    sole_trader: {
-      type: Boolean,
-      required: true,
-    },
-    vat_id: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     password: {
       type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      enum: ERoles,
       required: true,
     },
     status: {
