@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { ERoles } from "../enums/role.enum";
 import { ApiError } from "../errors/api.error";
+import { User } from "../models/User.model";
 import { userRepository } from "../repositories/user.repository";
 
 class UserMiddleware {
@@ -53,6 +54,27 @@ class UserMiddleware {
     } catch (e) {
       next(e);
     }
+  }
+
+  public isUserExist<T>(field: keyof T) {
+    return async (
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ): Promise<void> => {
+      try {
+        const user = await User.findOne({ [field]: req.body[field] }).lean(); //обрізає лишню інфу, яка приходить з монгівського документа
+
+        if (!user) {
+          throw new ApiError("User not found", 404);
+        }
+
+        req.res.locals = user;
+        next();
+      } catch (e) {
+        next(e);
+      }
+    };
   }
 }
 

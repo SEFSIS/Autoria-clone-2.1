@@ -8,6 +8,14 @@ class UserRepository {
     const users = await User.find();
     return users;
   }
+  public async updateOneById(
+    userId: string,
+    dto: Partial<IUser>,
+  ): Promise<IUser> {
+    return await User.findByIdAndUpdate(userId, dto, {
+      returnDocument: "after",
+    });
+  }
 
   public async getOneByParams(params: FilterQuery<IUser>): Promise<IUser> {
     return await User.findOne(params);
