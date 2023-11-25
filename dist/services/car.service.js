@@ -46,5 +46,31 @@ class CarService {
             return [];
         }
     }
+    async getAveragePriceByCity(city) {
+        try {
+            const carsInCity = await car_repository_1.carRepository.getAllByCity(city);
+            const prices = carsInCity.map((car) => car.price || 0);
+            const totalPrices = prices.reduce((acc, price) => acc + price, 0);
+            const averagePrice = totalPrices / prices.length;
+            return averagePrice;
+        }
+        catch (error) {
+            console.error("Error calculating average price by city:", error);
+            throw new Error("Unable to calculate average price.");
+        }
+    }
+    async getAverageCarPrice() {
+        try {
+            const cars = await car_repository_1.carRepository.getAll();
+            const prices = cars.map((car) => car.price || 0);
+            const totalPrices = prices.reduce((acc, price) => acc + price, 0);
+            const averagePrice = totalPrices / prices.length;
+            return averagePrice;
+        }
+        catch (error) {
+            console.error("Error calculating average car price:", error);
+            throw new Error("Unable to calculate average car price.");
+        }
+    }
 }
 exports.carService = new CarService();

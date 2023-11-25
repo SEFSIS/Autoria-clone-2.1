@@ -10,8 +10,26 @@ const router = Router();
 
 router.get("/", carController.getAll);
 
-router.get("/popular", carController.getAllPopular);
+router.get(
+  "/popular",
+  authMiddleware.checkAccessToken,
+  authMiddleware.checkPremium,
+  carController.getAllPopular,
+);
 
+router.get(
+  "/average-price",
+  authMiddleware.checkAccessToken,
+  authMiddleware.checkPremium,
+  carController.getAverageCarPrice,
+);
+
+router.get(
+  "/average-price/:city",
+  authMiddleware.checkAccessToken,
+  authMiddleware.checkPremium,
+  carController.getAveragePriceByCity,
+);
 router.post(
   "/",
   authMiddleware.checkAccessToken,

@@ -55,5 +55,8 @@ class CarRepository {
             date1.getMonth() === date2.getMonth() &&
             date1.getDate() === date2.getDate());
     }
+    async getAllByCity(city) {
+        return await Car_model_1.Car.find({ city }).populate("_userId");
+    }
 }
 exports.carRepository = new CarRepository();

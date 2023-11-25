@@ -92,6 +92,34 @@ class CarController {
       next(e);
     }
   }
+
+  public async getAveragePriceByCity(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response<number>> {
+    try {
+      const city = req.params.city;
+      const averagePrice = await carService.getAveragePriceByCity(city);
+
+      return res.json(averagePrice);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  public async getAverageCarPrice(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const averagePrice = await carService.getAverageCarPrice();
+      res.json({ averagePrice });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export const carController = new CarController();

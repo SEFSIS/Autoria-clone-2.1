@@ -52,11 +52,44 @@ class CarService {
 
   public async getMostViewedCars(): Promise<ICar[]> {
     try {
-      const mostViewedCars = await (await carRepository.getAll()).sort((a, b) => b.views - a.views);
+      const mostViewedCars = await (
+        await carRepository.getAll()
+      ).sort((a, b) => b.views - a.views);
       return mostViewedCars;
     } catch (error) {
       console.error("Error getting most viewed cars:", error);
       return [];
+    }
+  }
+
+  public async getAveragePriceByCity(city: string): Promise<number> {
+    try {
+      const carsInCity = await carRepository.getAllByCity(city);
+      const prices = carsInCity.map((car: ICar) => car.price || 0);
+      const totalPrices = prices.reduce((acc, price) => acc + price, 0);
+      const averagePrice = totalPrices / prices.length;
+
+      return averagePrice;
+    } catch (error) {
+      console.error("Error calculating average price by city:", error);
+      throw new Error("Unable to calculate average price.");
+    }
+  }
+
+  public async getAverageCarPrice(): Promise<number> {
+    try {
+      const cars = await carRepository.getAll();
+      const prices = cars.map((car: ICar) => car.price || 0);
+      const totalPrices = prices.reduce(
+        (acc: number, price: number) => acc + price,
+        0,
+      );
+      const averagePrice = totalPrices / prices.length;
+
+      return averagePrice;
+    } catch (error) {
+      console.error("Error calculating average car price:", error);
+      throw new Error("Unable to calculate average car price.");
     }
   }
 }

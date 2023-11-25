@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 import { ERoles } from "../enums/role.enum";
+import { EStatus } from "../enums/status.enum";
 import { ApiError } from "../errors/api.error";
 import { tokenRepository } from "../repositories/token.repository";
 import { tokenService } from "../services/token.service";
@@ -78,6 +79,24 @@ class AuthMiddleware {
       if (userRole !== ERoles.Admin) {
         throw new ApiError(
           "Access denied. Only admins are allowed for this action.",
+          403,
+        );
+      }
+
+      next();
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async checkPremium(req: Request, res: Response, next: NextFunction) {
+    try {
+      const payload = req.res.locals.tokenPayload;
+      const userStatus = payload.status;
+
+      if (userStatus !== EStatus.premium) {
+        throw new ApiError(
+          "The access is granted exclusively to users with a premium account.",
           403,
         );
       }

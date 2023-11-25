@@ -69,6 +69,9 @@ class CarRepository {
       date1.getDate() === date2.getDate()
     );
   }
+  public async getAllByCity(city: string): Promise<ICar[]> {
+    return await Car.find({ city }).populate("_userId");
+  }
 }
 
 export const carRepository = new CarRepository();
