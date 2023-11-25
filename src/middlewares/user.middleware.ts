@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
+import { ERoles } from "../enums/role.enum";
 import { ApiError } from "../errors/api.error";
 import { userRepository } from "../repositories/user.repository";
 
@@ -28,6 +29,24 @@ class UserMiddleware {
       const user = await userRepository.getOneByParams({ email });
       if (user) {
         throw new ApiError("Email already exist", 409);
+      }
+
+      next();
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async disallowManagerRole(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { role } = req.body;
+
+      if (role && role.toLowerCase() === ERoles.Manager) {
+        throw new ApiError("Role 'manager' is not allowed", 403);
       }
 
       next();

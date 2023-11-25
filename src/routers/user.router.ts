@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import { authController } from "../controllers/auth.controller";
 import { userController } from "../controllers/user.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import { commonMiddleware } from "../middlewares/common.middleware";
@@ -15,6 +16,14 @@ router.get(
   userController.getAll,
 );
 
+router.post(
+  "/create-manager",
+  authMiddleware.checkAccessToken,
+  authMiddleware.checkAdminOnly,
+  commonMiddleware.isBodyValid(UserValidator.register),
+  userMiddleware.isEmailUniq,
+  authController.register,
+);
 router.get(
   "/:userId",
   commonMiddleware.isIdValid("userId"),

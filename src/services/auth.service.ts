@@ -1,10 +1,12 @@
 import { ObjectId } from "mongodb";
 
+import { EEmailAction } from "../enums/email.action.enum";
 import { ApiError } from "../errors/api.error";
 import { tokenRepository } from "../repositories/token.repository";
 import { userRepository } from "../repositories/user.repository";
 import { ITokenPayload, ITokensPair } from "../types/token.type";
 import { IUserCredentials } from "../types/user.type";
+import { emailService } from "./email.service";
 import { passwordService } from "./password.service";
 import { tokenService } from "./token.service";
 
@@ -12,6 +14,9 @@ class AuthService {
   public async register(dto: IUserCredentials): Promise<void> {
     try {
       const hashedPassword = await passwordService.hash(dto.password);
+      await emailService.sendMail(dto.email, EEmailAction.REGISTER, {
+        name: dto.name,
+      });
       await userRepository.register({ ...dto, password: hashedPassword });
     } catch (e) {
       throw new ApiError(e.message, e.status);
@@ -65,6 +70,22 @@ class AuthService {
       ]);
 
       return tokensPair;
+    } catch (e) {
+      throw new ApiError(e.message, e.status);
+    }
+  }
+
+  public async logout(accessToken: string): Promise<void> {
+    try {
+      await tokenRepository.deleteOne({ accessToken });
+    } catch (e) {
+      throw new ApiError(e.message, e.status);
+    }
+  }
+
+  public async logoutAll(userId: string): Promise<void> {
+    try {
+      await tokenRepository.deleteManyByUserId(userId);
     } catch (e) {
       throw new ApiError(e.message, e.status);
     }

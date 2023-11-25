@@ -11,6 +11,7 @@ const router = Router();
 router.post(
   "/register",
   commonMiddleware.isBodyValid(UserValidator.register),
+  userMiddleware.disallowManagerRole,
   userMiddleware.isEmailUniq,
   authController.register,
 );
@@ -24,6 +25,13 @@ router.post(
   "/refresh",
   authMiddleware.checkRefreshToken,
   authController.refresh,
+);
+
+router.post("/logout", authMiddleware.checkAccessToken, authController.logout);
+router.post(
+  "/logout-all",
+  authMiddleware.checkAccessToken,
+  authController.logoutAll,
 );
 
 export const authRouter = router;

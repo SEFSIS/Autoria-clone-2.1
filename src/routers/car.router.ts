@@ -12,6 +12,7 @@ router.get("/", carController.getAll);
 router.post(
   "/",
   authMiddleware.checkAccessToken,
+  authMiddleware.checkUserOnly,
   commonMiddleware.isBodyValid(CarValidator.create),
   carController.createCar,
 );

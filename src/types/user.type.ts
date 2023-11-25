@@ -18,4 +18,4 @@ export interface IUser extends Document {
   status?: EStatus;
 }
 
-export type IUserCredentials = Pick<IUser, "role" | "email" | "password">;
+export type IUserCredentials = Pick<IUser, "name"| "role" | "email" | "password">;
