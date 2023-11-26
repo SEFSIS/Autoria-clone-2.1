@@ -1,41 +1,19 @@
 import { ApiError } from "../errors/api.error";
-import { User } from "../models/User.model";
 import { userRepository } from "../repositories/user.repository";
 import { IPaginationResponse, IQuery } from "../types/pagination.type";
 import { IUser } from "../types/user.type";
 
 class UserService {
-  public async getAll(): Promise<IUser[]> {
-    return await userRepository.getAll();
-  }
-
   public async getAllWithPagination(
     query: IQuery,
   ): Promise<IPaginationResponse<IUser>> {
     try {
-      const queryStr = JSON.stringify(query);
-      const queryObj = JSON.parse(
-        queryStr.replace(/\b(gte|lte|gt|lt)\b/, (match) => `$${match}`),
-      );
-
-      const {
-        page = 1,
-        limit = 5,
-        sortedBy = "createdAt",
-        ...searchObject
-      } = queryObj;
-
-      const skip = +limit * (+page - 1);
-
-      const [users, itemsFound] = await Promise.all([
-        User.find(searchObject).limit(+limit).skip(skip).sort(sortedBy),
-        User.count(searchObject),
-      ]);
+      const [users, itemsFound] = await userRepository.getMany(query);
 
       return {
-        page: +page,
-        limit: +limit,
-        itemsFound: itemsFound,
+        page: +query.page || 1,
+        limit: +query.limit || 5,
+        itemsFound,
         data: users,
       };
     } catch (e) {

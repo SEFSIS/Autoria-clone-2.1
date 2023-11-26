@@ -6,6 +6,16 @@ class CarRepository {
     async getAll() {
         return await Car_model_1.Car.find().populate("_userId");
     }
+    async getMany(query) {
+        const queryStr = JSON.stringify(query);
+        const queryObj = JSON.parse(queryStr.replace(/\b(gte|lte|gt|lt)\b/, (match) => `$${match}`));
+        const { page, limit, sortedBy, ...searchObject } = queryObj;
+        const skip = +limit * (+page - 1);
+        return await Promise.all([
+            Car_model_1.Car.find(searchObject).populate("_userId").limit(+limit).skip(skip).sort(sortedBy),
+            Car_model_1.Car.count(searchObject),
+        ]);
+    }
     async getOneByParams(params) {
         return await Car_model_1.Car.findOne(params);
     }

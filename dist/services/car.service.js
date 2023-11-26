@@ -3,31 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.carService = void 0;
 const role_enum_1 = require("../enums/role.enum");
 const api_error_1 = require("../errors/api.error");
-const Car_model_1 = require("../models/Car.model");
 const car_repository_1 = require("../repositories/car.repository");
 const user_repository_1 = require("../repositories/user.repository");
 class CarService {
-    async getAll() {
-        return await car_repository_1.carRepository.getAll();
-    }
     async getAllWithPagination(query) {
         try {
-            const queryStr = JSON.stringify(query);
-            const queryObj = JSON.parse(queryStr.replace(/\b(gte|lte|gt|lt)\b/, (match) => `$${match}`));
-            const { page = 1, limit = 5, sortedBy = "createdAt", ...searchObject } = queryObj;
-            const skip = +limit * (+page - 1);
-            const [cars, itemsFound] = await Promise.all([
-                Car_model_1.Car.find(searchObject)
-                    .limit(+limit)
-                    .skip(skip)
-                    .sort(sortedBy)
-                    .populate("_userId"),
-                Car_model_1.Car.count(searchObject),
-            ]);
+            const [cars, itemsFound] = await car_repository_1.carRepository.getMany(query);
             return {
-                page: +page,
-                limit: +limit,
-                itemsFound: itemsFound,
+                page: +query.page || 1,
+                limit: +query.limit || 5,
+                itemsFound,
                 data: cars,
             };
         }

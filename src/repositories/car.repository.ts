@@ -2,10 +2,26 @@ import { FilterQuery } from "mongoose";
 
 import { Car } from "../models/Car.model";
 import { ICar } from "../types/car.type";
+import { IQuery } from "../types/pagination.type";
 
 class CarRepository {
   public async getAll(): Promise<ICar[]> {
     return await Car.find().populate("_userId");
+  }
+  public async getMany(query: IQuery): Promise<[ICar[], number]> {
+    const queryStr = JSON.stringify(query);
+    const queryObj = JSON.parse(
+      queryStr.replace(/\b(gte|lte|gt|lt)\b/, (match) => `$${match}`),
+    );
+
+    const { page, limit, sortedBy, ...searchObject } = queryObj;
+
+    const skip = +limit * (+page - 1);
+
+    return await Promise.all([
+      Car.find(searchObject).populate("_userId").limit(+limit).skip(skip).sort(sortedBy),
+      Car.count(searchObject),
+    ]);
   }
   public async getOneByParams(params: FilterQuery<ICar>): Promise<ICar> {
     return await Car.findOne(params);
