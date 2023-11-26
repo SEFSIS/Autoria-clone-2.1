@@ -1,6 +1,7 @@
 import { UploadedFile } from "express-fileupload";
 
 import { ERoles } from "../enums/role.enum";
+import { EStatus } from "../enums/status.enum";
 import { ApiError } from "../errors/api.error";
 import { carRepository } from "../repositories/car.repository";
 import { userRepository } from "../repositories/user.repository";
@@ -43,10 +44,6 @@ class CarService {
     });
 
     return updatedCar;
-  }
-
-  public async createCar(dto: ICar, userId: string): Promise<ICar> {
-    return await carRepository.createCar(dto, userId);
   }
 
   public async updateCar(
@@ -128,6 +125,38 @@ class CarService {
       console.error("Error calculating average car price:", error);
       throw new Error("Unable to calculate average car price.");
     }
+  }
+
+  public async createCar(dto: ICar, userId: string): Promise<ICar> {
+    const userStatus = await this.getUserStatus(userId);
+
+    if (userStatus !== EStatus.premium) {
+      const userCarCount = await this.getUserCarCount(userId);
+
+      if (userCarCount >= 1) {
+        throw new ApiError("You cannot create more than 1 car", 403);
+      }
+    }
+
+    return await carRepository.createCar(dto, userId);
+  }
+
+  public async getUserCarCount(userId: string): Promise<number> {
+    try {
+      const userCars = await carRepository.getCarsByUserId(userId);
+      return userCars.length;
+    } catch (error) {
+      console.error(
+        "Помилка при отриманні кількості автомобілів користувача:",
+        error,
+      );
+      return 0;
+    }
+  }
+
+  private async getUserStatus(userId: string): Promise<EStatus> {
+    const user = await userRepository.findById(userId);
+    return user?.status || EStatus.base;
   }
 }
 

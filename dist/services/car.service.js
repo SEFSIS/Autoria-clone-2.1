@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.carService = void 0;
 const role_enum_1 = require("../enums/role.enum");
+const status_enum_1 = require("../enums/status.enum");
 const api_error_1 = require("../errors/api.error");
 const car_repository_1 = require("../repositories/car.repository");
 const user_repository_1 = require("../repositories/user.repository");
@@ -31,9 +32,6 @@ class CarService {
             avatar: filePath,
         });
         return updatedCar;
-    }
-    async createCar(dto, userId) {
-        return await car_repository_1.carRepository.createCar(dto, userId);
     }
     async updateCar(carId, dto, userId) {
         await this.checkAbilityToManage(userId, carId);
@@ -94,6 +92,30 @@ class CarService {
             console.error("Error calculating average car price:", error);
             throw new Error("Unable to calculate average car price.");
         }
+    }
+    async createCar(dto, userId) {
+        const userStatus = await this.getUserStatus(userId);
+        if (userStatus !== status_enum_1.EStatus.premium) {
+            const userCarCount = await this.getUserCarCount(userId);
+            if (userCarCount >= 1) {
+                throw new api_error_1.ApiError("You cannot create more than 1 car", 403);
+            }
+        }
+        return await car_repository_1.carRepository.createCar(dto, userId);
+    }
+    async getUserCarCount(userId) {
+        try {
+            const userCars = await car_repository_1.carRepository.getCarsByUserId(userId);
+            return userCars.length;
+        }
+        catch (error) {
+            console.error("Помилка при отриманні кількості автомобілів користувача:", error);
+            return 0;
+        }
+    }
+    async getUserStatus(userId) {
+        const user = await user_repository_1.userRepository.findById(userId);
+        return user?.status || status_enum_1.EStatus.base;
     }
 }
 exports.carService = new CarService();

@@ -73,5 +73,15 @@ class CarRepository {
             returnDocument: "after",
         }).populate("_userId");
     }
+    async getCarsByUserId(userId) {
+        try {
+            const cars = await Car_model_1.Car.find({ _userId: userId });
+            return cars;
+        }
+        catch (error) {
+            console.error('Помилка при отриманні автомобілів за ідентифікатором користувача:', error);
+            return [];
+        }
+    }
 }
 exports.carRepository = new CarRepository();

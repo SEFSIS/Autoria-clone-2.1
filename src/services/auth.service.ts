@@ -245,7 +245,7 @@ class AuthService {
 
       await Promise.all([
         userRepository.updateOneById(userId, { password }),
-        this.logoutAll(userId), //всі попередні токени перестають працювати
+        this.logoutAll(userId),
       ]);
     } catch (e) {
       throw new ApiError(e.message, e.status);

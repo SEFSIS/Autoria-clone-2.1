@@ -45,7 +45,6 @@ class CarController {
   ): Promise<void> {
     try {
       const { userId } = req.res.locals.tokenPayload as ITokenPayload;
-
       const car = await carService.createCar(req.body, userId);
 
       res.status(201).json(car);
@@ -53,6 +52,7 @@ class CarController {
       next(e);
     }
   }
+
   public async deleteCar(
     req: Request,
     res: Response,

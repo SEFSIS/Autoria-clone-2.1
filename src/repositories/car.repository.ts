@@ -94,6 +94,16 @@ class CarRepository {
       returnDocument: "after",
     }).populate("_userId");
   }
+
+  public async getCarsByUserId(userId: string): Promise<ICar[]> {
+    try {
+      const cars = await Car.find({ _userId: userId });
+      return cars;
+    } catch (error) {
+      console.error('Помилка при отриманні автомобілів за ідентифікатором користувача:', error);
+      return [];
+    }
+  }
 }
 
 export const carRepository = new CarRepository();
