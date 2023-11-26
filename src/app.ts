@@ -2,7 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import * as mongoose from "mongoose";
 
 import { configs } from "./configs/config";
-import {cronRunner} from "./crons";
+import { cronRunner } from "./crons";
 import { authRouter } from "./routers/auth.router";
 import { carRouter } from "./routers/car.router";
 import { userRouter } from "./routers/user.router";
