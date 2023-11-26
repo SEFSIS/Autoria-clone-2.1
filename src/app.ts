@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from "express";
 import * as mongoose from "mongoose";
 
 import { configs } from "./configs/config";
+import {cronRunner} from "./crons";
 import { authRouter } from "./routers/auth.router";
 import { carRouter } from "./routers/car.router";
 import { userRouter } from "./routers/user.router";
@@ -25,6 +26,6 @@ app.use((error: any, req: Request, res: Response, next: NextFunction) => {
 
 app.listen(configs.PORT, async () => {
   await mongoose.connect(configs.DB_URI);
-
+  cronRunner();
   console.log(`Server has successfully started on PORT ${configs.PORT}`);
 });
