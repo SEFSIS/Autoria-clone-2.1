@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { UploadedFile } from "express-fileupload";
 
 import { EStatus } from "../enums/status.enum";
 import { carPresenter } from "../presenters/car.presenter";
@@ -138,6 +139,24 @@ class CarController {
       res.json({ averagePrice });
     } catch (error) {
       next(error);
+    }
+  }
+
+  public async uploadAvatar(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response<ICar>> {
+    try {
+      const { carId } = req.params;
+      const avatar = req.files.avatar as UploadedFile;
+      const car = await carService.uploadAvatar(avatar, carId);
+
+      const response = carPresenter.present(car);
+
+      return res.json(response);
+    } catch (e) {
+      next(e);
     }
   }
 }

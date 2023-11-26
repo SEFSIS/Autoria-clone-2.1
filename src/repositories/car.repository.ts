@@ -88,6 +88,12 @@ class CarRepository {
   public async getAllByCity(city: string): Promise<ICar[]> {
     return await Car.find({ city }).populate("_userId");
   }
+
+  public async updateOneById(carId: string, dto: Partial<ICar>): Promise<ICar> {
+    return await Car.findByIdAndUpdate(carId, dto, {
+      returnDocument: "after",
+    }).populate("_userId");
+  }
 }
 
 export const carRepository = new CarRepository();

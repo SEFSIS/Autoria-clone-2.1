@@ -1,3 +1,4 @@
+import { configs } from "../configs/config";
 import { ICar } from "../types/car.type";
 import { IUser } from "../types/user.type";
 
@@ -29,6 +30,7 @@ class CarPresenterPremium
       insurance: data.insurance,
       price: data.price,
       city: data.city,
+      avatar: `${configs.AWS_S3_URL}/${data.avatar}`,
       views: data.views,
       lastViewedAt: data.lastViewedAt,
       dailyViews: data.dailyViews,

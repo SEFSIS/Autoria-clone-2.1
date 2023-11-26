@@ -5,6 +5,7 @@ const role_enum_1 = require("../enums/role.enum");
 const api_error_1 = require("../errors/api.error");
 const car_repository_1 = require("../repositories/car.repository");
 const user_repository_1 = require("../repositories/user.repository");
+const s3_service_1 = require("./s3.service");
 class CarService {
     async getAllWithPagination(query) {
         try {
@@ -19,6 +20,17 @@ class CarService {
         catch (e) {
             throw new api_error_1.ApiError(e.message, e.status);
         }
+    }
+    async uploadAvatar(avatar, carId) {
+        const car = await car_repository_1.carRepository.findById(carId);
+        if (car.avatar) {
+            await s3_service_1.s3Service.deleteFile(car.avatar);
+        }
+        const filePath = await s3_service_1.s3Service.uploadFile(avatar, s3_service_1.EFileTypes.Car, carId);
+        const updatedCar = await car_repository_1.carRepository.updateOneById(carId, {
+            avatar: filePath,
+        });
+        return updatedCar;
     }
     async createCar(dto, userId) {
         return await car_repository_1.carRepository.createCar(dto, userId);

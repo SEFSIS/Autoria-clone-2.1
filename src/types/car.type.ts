@@ -13,6 +13,7 @@ export interface ICar extends Document {
   insurance?: boolean;
   price?: number;
   city: ECity;
+  avatar: string;
   _userId: Types.ObjectId | IUser["_id"];
   views: number;
   lastViewedAt: Date;

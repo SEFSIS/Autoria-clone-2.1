@@ -68,5 +68,10 @@ class CarRepository {
     async getAllByCity(city) {
         return await Car_model_1.Car.find({ city }).populate("_userId");
     }
+    async updateOneById(carId, dto) {
+        return await Car_model_1.Car.findByIdAndUpdate(carId, dto, {
+            returnDocument: "after",
+        }).populate("_userId");
+    }
 }
 exports.carRepository = new CarRepository();

@@ -93,5 +93,17 @@ class CarController {
             next(error);
         }
     }
+    async uploadAvatar(req, res, next) {
+        try {
+            const { carId } = req.params;
+            const avatar = req.files.avatar;
+            const car = await car_service_1.carService.uploadAvatar(avatar, carId);
+            const response = car_presenter_1.carPresenter.present(car);
+            return res.json(response);
+        }
+        catch (e) {
+            next(e);
+        }
+    }
 }
 exports.carController = new CarController();

@@ -41,6 +41,9 @@ const carSchema = new Schema(
       enum: Object.keys(ECity) as ECityString[],
       required: true,
     },
+    avatar: {
+      type: String,
+    },
     _userId: {
       type: Types.ObjectId,
       required: true,

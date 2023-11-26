@@ -40,6 +40,9 @@ const carSchema = new mongoose_1.Schema({
         enum: Object.keys(city_enum_1.ECity),
         required: true,
     },
+    avatar: {
+        type: String,
+    },
     _userId: {
         type: mongoose_1.Types.ObjectId,
         required: true,

@@ -6,6 +6,7 @@ const car_controller_1 = require("../controllers/car.controller");
 const auth_middleware_1 = require("../middlewares/auth.middleware");
 const car_middleware_1 = require("../middlewares/car.middleware");
 const common_middleware_1 = require("../middlewares/common.middleware");
+const file_middleware_1 = require("../middlewares/file.middleware");
 const car_validator_1 = require("../validators/car.validator");
 const router = (0, express_1.Router)();
 router.get("/", auth_middleware_1.authMiddleware.checkAccessToken, car_controller_1.carController.getAll);
@@ -16,4 +17,5 @@ router.post("/", auth_middleware_1.authMiddleware.checkAccessToken, auth_middlew
 router.get("/:carId", auth_middleware_1.authMiddleware.checkAccessToken, auth_middleware_1.authMiddleware.checkPremium, common_middleware_1.commonMiddleware.isIdValid("carId"), car_middleware_1.carMiddleware.getByIdOrThrow, car_controller_1.carController.getById);
 router.put("/:carId", auth_middleware_1.authMiddleware.checkAccessToken, common_middleware_1.commonMiddleware.isIdValid("carId"), common_middleware_1.commonMiddleware.isBodyValid(car_validator_1.CarValidator.update), car_controller_1.carController.updateCar);
 router.delete("/:carId", auth_middleware_1.authMiddleware.checkAccessToken, common_middleware_1.commonMiddleware.isIdValid("carId"), car_controller_1.carController.deleteCar);
+router.post("/:carId/avatar", auth_middleware_1.authMiddleware.checkAccessToken, file_middleware_1.fileMiddleware.isAvatarValid, car_controller_1.carController.uploadAvatar);
 exports.carRouter = router;

@@ -4,6 +4,7 @@ import { carController } from "../controllers/car.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import { carMiddleware } from "../middlewares/car.middleware";
 import { commonMiddleware } from "../middlewares/common.middleware";
+import { fileMiddleware } from "../middlewares/file.middleware";
 import { CarValidator } from "../validators/car.validator";
 
 const router = Router();
@@ -58,6 +59,13 @@ router.delete(
   authMiddleware.checkAccessToken,
   commonMiddleware.isIdValid("carId"),
   carController.deleteCar,
+);
+
+router.post(
+  "/:carId/avatar",
+  authMiddleware.checkAccessToken,
+  fileMiddleware.isAvatarValid,
+  carController.uploadAvatar,
 );
 
 export const carRouter = router;

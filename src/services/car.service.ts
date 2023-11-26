@@ -1,9 +1,12 @@
+import { UploadedFile } from "express-fileupload";
+
 import { ERoles } from "../enums/role.enum";
 import { ApiError } from "../errors/api.error";
 import { carRepository } from "../repositories/car.repository";
 import { userRepository } from "../repositories/user.repository";
 import { ICar } from "../types/car.type";
 import { IPaginationResponse, IQuery } from "../types/pagination.type";
+import { EFileTypes, s3Service } from "./s3.service";
 
 class CarService {
   public async getAllWithPagination(
@@ -21,6 +24,25 @@ class CarService {
     } catch (e) {
       throw new ApiError(e.message, e.status);
     }
+  }
+
+  public async uploadAvatar(
+    avatar: UploadedFile,
+    carId: string,
+  ): Promise<ICar> {
+    const car = await carRepository.findById(carId);
+
+    if (car.avatar) {
+      await s3Service.deleteFile(car.avatar);
+    }
+
+    const filePath = await s3Service.uploadFile(avatar, EFileTypes.Car, carId);
+
+    const updatedCar = await carRepository.updateOneById(carId, {
+      avatar: filePath,
+    });
+
+    return updatedCar;
   }
 
   public async createCar(dto: ICar, userId: string): Promise<ICar> {
