@@ -8,7 +8,8 @@ const car_service_1 = require("../services/car.service");
 class CarController {
     async getAll(req, res, next) {
         try {
-            const cars = await car_service_1.carService.getAll();
+            const carsPagination = await car_service_1.carService.getAllWithPagination(req.query);
+            const cars = carsPagination.data;
             const payload = req.res.locals.tokenPayload;
             const userStatus = payload?.status;
             let formattedCars;

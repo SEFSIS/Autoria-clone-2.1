@@ -5,6 +5,7 @@ import { carPresenter } from "../presenters/car.presenter";
 import { carPresenterPremium } from "../presenters/car.presenter.premium";
 import { carService } from "../services/car.service";
 import { ICar } from "../types/car.type";
+import { IQuery } from "../types/pagination.type";
 import { ITokenPayload } from "../types/token.type";
 
 class CarController {
@@ -14,7 +15,10 @@ class CarController {
     next: NextFunction,
   ): Promise<Response<ICar[]>> {
     try {
-      const cars = await carService.getAll();
+      const carsPagination = await carService.getAllWithPagination(
+        req.query as IQuery,
+      );
+      const cars = carsPagination.data;
 
       const payload = req.res.locals.tokenPayload;
       const userStatus = payload?.status;

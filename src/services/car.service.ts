@@ -1,12 +1,52 @@
 import { ERoles } from "../enums/role.enum";
 import { ApiError } from "../errors/api.error";
+import { Car } from "../models/Car.model";
 import { carRepository } from "../repositories/car.repository";
 import { userRepository } from "../repositories/user.repository";
 import { ICar } from "../types/car.type";
+import { IPaginationResponse, IQuery } from "../types/pagination.type";
 
 class CarService {
   public async getAll(): Promise<ICar[]> {
     return await carRepository.getAll();
+  }
+
+  public async getAllWithPagination(
+    query: IQuery,
+  ): Promise<IPaginationResponse<ICar>> {
+    try {
+      const queryStr = JSON.stringify(query);
+      const queryObj = JSON.parse(
+        queryStr.replace(/\b(gte|lte|gt|lt)\b/, (match) => `$${match}`),
+      );
+
+      const {
+        page = 1,
+        limit = 5,
+        sortedBy = "createdAt",
+        ...searchObject
+      } = queryObj;
+
+      const skip = +limit * (+page - 1);
+
+      const [cars, itemsFound] = await Promise.all([
+        Car.find(searchObject)
+          .limit(+limit)
+          .skip(skip)
+          .sort(sortedBy)
+          .populate("_userId"),
+        Car.count(searchObject),
+      ]);
+
+      return {
+        page: +page,
+        limit: +limit,
+        itemsFound: itemsFound,
+        data: cars,
+      };
+    } catch (e) {
+      throw new ApiError(e.message, e.status);
+    }
   }
 
   public async createCar(dto: ICar, userId: string): Promise<ICar> {
