@@ -1,5 +1,5 @@
 import { configs } from "../configs/config";
-import {ECarStatus} from "../enums/car.status.enum";
+import { ECarStatus } from "../enums/car.status.enum";
 import { ICar } from "../types/car.type";
 import { IUser } from "../types/user.type";
 

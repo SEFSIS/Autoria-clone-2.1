@@ -5,4 +5,3 @@ export enum EGenders {
   NonBinary = "non-binary",
   Other = "other",
 }
-

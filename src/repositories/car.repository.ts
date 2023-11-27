@@ -19,7 +19,11 @@ class CarRepository {
     const skip = +limit * (+page - 1);
 
     return await Promise.all([
-      Car.find(searchObject).populate("_userId").limit(+limit).skip(skip).sort(sortedBy),
+      Car.find(searchObject)
+        .populate("_userId")
+        .limit(+limit)
+        .skip(skip)
+        .sort(sortedBy),
       Car.count(searchObject),
     ]);
   }
@@ -100,7 +104,10 @@ class CarRepository {
       const cars = await Car.find({ _userId: userId });
       return cars;
     } catch (error) {
-      console.error('Помилка при отриманні автомобілів за ідентифікатором користувача:', error);
+      console.error(
+        "Помилка при отриманні автомобілів за ідентифікатором користувача:",
+        error,
+      );
       return [];
     }
   }

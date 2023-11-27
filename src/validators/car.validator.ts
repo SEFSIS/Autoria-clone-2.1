@@ -2,7 +2,7 @@ import joi, { AnySchema } from "joi";
 
 import { EBrand } from "../enums/brand.enum";
 import { ECity } from "../enums/city.enum";
-import {EStatus} from "../enums/status.enum";
+import { EStatus } from "../enums/status.enum";
 
 const currentYear = new Date().getFullYear();
 
