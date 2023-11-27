@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 
+import { userPresenter } from "../presenters/user.presenter";
 import { userService } from "../services/user.service";
 import { IQuery } from "../types/pagination.type";
 import { ITokenPayload } from "../types/token.type";
@@ -12,9 +13,15 @@ class UserController {
     next: NextFunction,
   ): Promise<Response<IUser[]>> {
     try {
-      const users = await userService.getAllWithPagination(req.query as IQuery);
+      const paginatedUsers = await userService.getAllWithPagination(
+        req.query as IQuery,
+      );
 
-      return res.json(users);
+      const users = paginatedUsers.data;
+
+      const response = users.map((user) => userPresenter.present(user));
+
+      return res.json(response);
     } catch (e) {
       next(e);
     }
