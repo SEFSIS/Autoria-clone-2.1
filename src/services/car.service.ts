@@ -1,5 +1,7 @@
+import Filter from "bad-words";
 import { UploadedFile } from "express-fileupload";
 
+import { ECarStatus } from "../enums/car.status.enum";
 import { ERoles } from "../enums/role.enum";
 import { EStatus } from "../enums/status.enum";
 import { ApiError } from "../errors/api.error";
@@ -137,6 +139,9 @@ class CarService {
         throw new ApiError("You cannot create more than 1 car", 403);
       }
     }
+
+    await this.checkForBadWordsInCar(dto);
+
     return await carRepository.createCar(dto, userId);
   }
 
@@ -156,6 +161,30 @@ class CarService {
   private async getUserStatus(userId: string): Promise<EStatus> {
     const user = await userRepository.findById(userId);
     return user?.status || EStatus.base;
+  }
+
+  private async checkForBadWordsInCar(car: ICar) {
+    const badWordsFilter = new Filter();
+    const fieldsToCheck: (keyof ICar)[] = [
+      "brand",
+      "modelka",
+      "color",
+      "number_of_owners",
+      "insurance",
+      "price",
+      "city",
+    ];
+
+    for (const field of fieldsToCheck) {
+      if (
+        car[field] &&
+        typeof car[field] === "string" &&
+        badWordsFilter.isProfane(car[field])
+      ) {
+        car.status = ECarStatus.inactive;
+        break;
+      }
+    }
   }
 }
 

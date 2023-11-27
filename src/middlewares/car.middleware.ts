@@ -2,7 +2,6 @@ import Filter from "bad-words";
 import { NextFunction, Request, Response } from "express";
 import { ObjectSchema } from "joi";
 
-import { ECarStatus } from "../enums/car.status.enum";
 import { ApiError } from "../errors/api.error";
 import { carRepository } from "../repositories/car.repository";
 
@@ -23,23 +22,6 @@ class CarMiddleware {
       next(e);
     }
   }
-  // public isCarBodyValid(validator: ObjectSchema) {
-  //   return async (req: Request, res: Response, next: NextFunction) => {
-  //     try {
-  //       const { error, value } = validator.validate(req.body);
-  //       await this.checkForBadWords(req.body);
-  //
-  //       if (error) {
-  //         throw new ApiError(error.message, 400);
-  //       }
-  //       req.body = value;
-  //       next();
-  //     } catch (e) {
-  //       next(e);
-  //     }
-  //   };
-  // }
-
   public isCarBodyValid(validator: ObjectSchema) {
     return async (req: Request, res: Response, next: NextFunction) => {
       try {
@@ -52,18 +34,14 @@ class CarMiddleware {
         req.body = value;
         next();
       } catch (e) {
-        if (e instanceof ApiError && e.status === 400) {
-          // Встановлюємо статус inactive для нової машини при вичерпанні ліміту редагувань
-          req.body = { ...req.body, status: ECarStatus.inactive };
-        }
         next(e);
       }
     };
   }
 
   private badWordsFilter = new Filter();
-  private editAttemptsMap = new Map<string, number>(); // Лічильник редагувань
-  private maxEditAttempts = 3; // Максимальна кількість редагувань
+  private editAttemptsMap = new Map<string, number>();
+  private maxEditAttempts = 3;
 
   private async checkForBadWords(data: any) {
     if (typeof data === "object") {
@@ -74,9 +52,8 @@ class CarMiddleware {
       }
     } else if (typeof data === "string") {
       if (this.badWordsFilter.isProfane(data)) {
-        const userId = "exampleUserId"; // Замініть на реальний ідентифікатор користувача
+        const userId = "exampleUserId";
 
-        // Перевірка кількості редагувань
         const editAttempts = this.getEditAttempts(userId);
 
         if (editAttempts < this.maxEditAttempts) {
@@ -84,11 +61,6 @@ class CarMiddleware {
           throw new ApiError(
             "Do not use foul language! Вам залишилося редагувань: " +
               (this.maxEditAttempts - editAttempts),
-            400,
-          );
-        } else {
-          throw new ApiError(
-            "Do not use foul language! Ви вичерпали ліміт редагувань.",
             400,
           );
         }

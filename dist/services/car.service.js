@@ -1,6 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.carService = void 0;
+const bad_words_1 = __importDefault(require("bad-words"));
+const car_status_enum_1 = require("../enums/car.status.enum");
 const role_enum_1 = require("../enums/role.enum");
 const status_enum_1 = require("../enums/status.enum");
 const api_error_1 = require("../errors/api.error");
@@ -101,6 +106,7 @@ class CarService {
                 throw new api_error_1.ApiError("You cannot create more than 1 car", 403);
             }
         }
+        await this.checkForBadWordsInCar(dto);
         return await car_repository_1.carRepository.createCar(dto, userId);
     }
     async getUserCarCount(userId) {
@@ -116,6 +122,26 @@ class CarService {
     async getUserStatus(userId) {
         const user = await user_repository_1.userRepository.findById(userId);
         return user?.status || status_enum_1.EStatus.base;
+    }
+    async checkForBadWordsInCar(car) {
+        const badWordsFilter = new bad_words_1.default();
+        const fieldsToCheck = [
+            "brand",
+            "modelka",
+            "color",
+            "number_of_owners",
+            "insurance",
+            "price",
+            "city",
+        ];
+        for (const field of fieldsToCheck) {
+            if (car[field] &&
+                typeof car[field] === "string" &&
+                badWordsFilter.isProfane(car[field])) {
+                car.status = car_status_enum_1.ECarStatus.inactive;
+                break;
+            }
+        }
     }
 }
 exports.carService = new CarService();

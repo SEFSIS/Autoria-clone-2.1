@@ -1,4 +1,5 @@
 import { configs } from "../configs/config";
+import {ECarStatus} from "../enums/car.status.enum";
 import { ICar } from "../types/car.type";
 import { IUser } from "../types/user.type";
 
@@ -20,6 +21,9 @@ class CarPresenter
   implements IPresenter<ICarWithUserSubset, Partial<ICarWithUserSubset>>
 {
   present(data: ICarWithUserSubset): Partial<ICarWithUserSubset> {
+    if (data.status !== ECarStatus.active) {
+      return {};
+    }
     return {
       _id: data._id.toString(),
       brand: data.brand,
