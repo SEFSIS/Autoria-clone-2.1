@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.carMiddleware = void 0;
 const bad_words_1 = __importDefault(require("bad-words"));
+const car_status_enum_1 = require("../enums/car.status.enum");
 const api_error_1 = require("../errors/api.error");
 const car_repository_1 = require("../repositories/car.repository");
 class CarMiddleware {
@@ -39,6 +40,9 @@ class CarMiddleware {
                 next();
             }
             catch (e) {
+                if (e instanceof api_error_1.ApiError && e.status === 400) {
+                    req.body = { ...req.body, status: car_status_enum_1.ECarStatus.inactive };
+                }
                 next(e);
             }
         };

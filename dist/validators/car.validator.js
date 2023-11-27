@@ -8,6 +8,7 @@ exports.CarValidator = void 0;
 const joi_1 = __importDefault(require("joi"));
 const brand_enum_1 = require("../enums/brand.enum");
 const city_enum_1 = require("../enums/city.enum");
+const status_enum_1 = require("../enums/status.enum");
 const currentYear = new Date().getFullYear();
 class CarValidator {
 }
@@ -23,6 +24,7 @@ CarValidator.number_of_owners = joi_1.default.number().min(1).max(5);
 CarValidator.insurance = joi_1.default.boolean().truthy("yes").falsy("no").sensitive(false);
 CarValidator.price = joi_1.default.number().min(1000).max(5000);
 CarValidator.city = joi_1.default.valid(...Object.values(city_enum_1.ECity));
+CarValidator.status = joi_1.default.valid(...Object.values(status_enum_1.EStatus));
 CarValidator.create = joi_1.default.object({
     brand: _a.brand.required(),
     modelka: _a.modelka.required(),
@@ -32,6 +34,7 @@ CarValidator.create = joi_1.default.object({
     insurance: _a.insurance.required(),
     price: _a.price.required(),
     city: _a.city.required(),
+    status: _a.status,
 });
 CarValidator.update = joi_1.default.object({
     modelka: _a.modelka,

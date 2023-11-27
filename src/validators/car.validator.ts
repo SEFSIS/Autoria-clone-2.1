@@ -2,6 +2,7 @@ import joi, { AnySchema } from "joi";
 
 import { EBrand } from "../enums/brand.enum";
 import { ECity } from "../enums/city.enum";
+import {EStatus} from "../enums/status.enum";
 
 const currentYear = new Date().getFullYear();
 
@@ -17,6 +18,7 @@ export class CarValidator {
   static insurance = joi.boolean().truthy("yes").falsy("no").sensitive(false);
   static price = joi.number().min(1000).max(5000);
   static city = joi.valid(...Object.values(ECity));
+  static status = joi.valid(...Object.values(EStatus));
 
   static create = joi.object({
     brand: this.brand.required(),
@@ -27,6 +29,7 @@ export class CarValidator {
     insurance: this.insurance.required(),
     price: this.price.required(),
     city: this.city.required(),
+    status: this.status,
   });
   static update = joi.object({
     modelka: this.modelka,

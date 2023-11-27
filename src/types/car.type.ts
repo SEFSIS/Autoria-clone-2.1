@@ -1,6 +1,7 @@
 import { Document, Types } from "mongoose";
 
 import { EBrand } from "../enums/brand.enum";
+import { ECarStatus } from "../enums/car.status.enum";
 import { ECity } from "../enums/city.enum";
 import { IUser } from "./user.type";
 
@@ -20,4 +21,5 @@ export interface ICar extends Document {
   dailyViews: number;
   monthlyViews: number;
   yearlyViews: number;
+  status?: ECarStatus;
 }

@@ -1,6 +1,7 @@
 import { model, Schema, Types } from "mongoose";
 
 import { EBrand } from "../enums/brand.enum";
+import { ECarStatus } from "../enums/car.status.enum";
 import { ECity, ECityString } from "../enums/city.enum";
 import { ICar } from "../types/car.type";
 import { User } from "./User.model";
@@ -43,6 +44,12 @@ const carSchema = new Schema(
     },
     avatar: {
       type: String,
+    },
+    status: {
+      type: String,
+      enum: ECarStatus,
+      required: true,
+      default: ECarStatus.active,
     },
     _userId: {
       type: Types.ObjectId,

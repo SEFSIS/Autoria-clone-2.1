@@ -1,7 +1,8 @@
 import Filter from "bad-words";
 import { NextFunction, Request, Response } from "express";
-import {ObjectSchema} from "joi";
+import { ObjectSchema } from "joi";
 
+import { ECarStatus } from "../enums/car.status.enum";
 import { ApiError } from "../errors/api.error";
 import { carRepository } from "../repositories/car.repository";
 
@@ -22,29 +23,23 @@ class CarMiddleware {
       next(e);
     }
   }
-
-  // public checkForBadWords(req: Request, res: Response, next: NextFunction) {
-  //   try {
-  //     const badWordsFilter = new Filter();
+  // public isCarBodyValid(validator: ObjectSchema) {
+  //   return async (req: Request, res: Response, next: NextFunction) => {
+  //     try {
+  //       const { error, value } = validator.validate(req.body);
+  //       await this.checkForBadWords(req.body);
   //
-  //     for (const key in req.body) {
-  //       if (typeof req.body[key] === "string") {
-  //         const text = req.body[key];
-  //
-  //         if (badWordsFilter.isProfane(text)) {
-  //           throw new ApiError(
-  //             "The use of profanity is prohibited, idiot!",
-  //             400,
-  //           );
-  //         }
+  //       if (error) {
+  //         throw new ApiError(error.message, 400);
   //       }
+  //       req.body = value;
+  //       next();
+  //     } catch (e) {
+  //       next(e);
   //     }
-  //
-  //     next();
-  //   } catch (e) {
-  //     next(e);
-  //   }
+  //   };
   // }
+
   public isCarBodyValid(validator: ObjectSchema) {
     return async (req: Request, res: Response, next: NextFunction) => {
       try {
@@ -57,14 +52,18 @@ class CarMiddleware {
         req.body = value;
         next();
       } catch (e) {
+        if (e instanceof ApiError && e.status === 400) {
+          // Встановлюємо статус inactive для нової машини при вичерпанні ліміту редагувань
+          req.body = { ...req.body, status: ECarStatus.inactive };
+        }
         next(e);
       }
     };
   }
+
   private badWordsFilter = new Filter();
   private editAttemptsMap = new Map<string, number>(); // Лічильник редагувань
   private maxEditAttempts = 3; // Максимальна кількість редагувань
-
 
   private async checkForBadWords(data: any) {
     if (typeof data === "object") {
@@ -83,14 +82,14 @@ class CarMiddleware {
         if (editAttempts < this.maxEditAttempts) {
           this.incrementEditAttempts(userId);
           throw new ApiError(
-              "Do not use foul language! Вам залишилося редагувань: " +
+            "Do not use foul language! Вам залишилося редагувань: " +
               (this.maxEditAttempts - editAttempts),
-              400,
+            400,
           );
         } else {
           throw new ApiError(
-              "Do not use foul language! Ви вичерпали ліміт редагувань.",
-              400,
+            "Do not use foul language! Ви вичерпали ліміт редагувань.",
+            400,
           );
         }
       }
@@ -105,7 +104,6 @@ class CarMiddleware {
   private getEditAttempts(userId: string): number {
     return this.editAttemptsMap.get(userId) || 0;
   }
-
 }
 
 export const carMiddleware = new CarMiddleware();

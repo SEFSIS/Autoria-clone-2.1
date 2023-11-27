@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Car = void 0;
 const mongoose_1 = require("mongoose");
 const brand_enum_1 = require("../enums/brand.enum");
+const car_status_enum_1 = require("../enums/car.status.enum");
 const city_enum_1 = require("../enums/city.enum");
 const User_model_1 = require("./User.model");
 const carSchema = new mongoose_1.Schema({
@@ -42,6 +43,12 @@ const carSchema = new mongoose_1.Schema({
     },
     avatar: {
         type: String,
+    },
+    status: {
+        type: String,
+        enum: car_status_enum_1.ECarStatus,
+        required: true,
+        default: car_status_enum_1.ECarStatus.active,
     },
     _userId: {
         type: mongoose_1.Types.ObjectId,
