@@ -2,6 +2,7 @@ import Filter from "bad-words";
 import { UploadedFile } from "express-fileupload";
 
 import { ECarStatus } from "../enums/car.status.enum";
+import { EEmailAction } from "../enums/email.action.enum";
 import { ERoles } from "../enums/role.enum";
 import { EStatus } from "../enums/status.enum";
 import { ApiError } from "../errors/api.error";
@@ -9,6 +10,7 @@ import { carRepository } from "../repositories/car.repository";
 import { userRepository } from "../repositories/user.repository";
 import { ICar } from "../types/car.type";
 import { IPaginationResponse, IQuery } from "../types/pagination.type";
+import { emailService } from "./email.service";
 import { EFileTypes, s3Service } from "./s3.service";
 
 class CarService {
@@ -17,7 +19,6 @@ class CarService {
   ): Promise<IPaginationResponse<ICar>> {
     try {
       const [cars, itemsFound] = await carRepository.getMany(query);
-
       return {
         page: +query.page || 1,
         limit: +query.limit || 5,
@@ -182,6 +183,13 @@ class CarService {
         badWordsFilter.isProfane(car[field])
       ) {
         car.status = ECarStatus.inactive;
+
+        await emailService.sendCustomMail(
+          "sofinblack11@gmail.com",
+          EEmailAction.INACTIVE,
+
+          car,
+        );
         break;
       }
     }

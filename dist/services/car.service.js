@@ -6,11 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.carService = void 0;
 const bad_words_1 = __importDefault(require("bad-words"));
 const car_status_enum_1 = require("../enums/car.status.enum");
+const email_action_enum_1 = require("../enums/email.action.enum");
 const role_enum_1 = require("../enums/role.enum");
 const status_enum_1 = require("../enums/status.enum");
 const api_error_1 = require("../errors/api.error");
 const car_repository_1 = require("../repositories/car.repository");
 const user_repository_1 = require("../repositories/user.repository");
+const email_service_1 = require("./email.service");
 const s3_service_1 = require("./s3.service");
 class CarService {
     async getAllWithPagination(query) {
@@ -139,6 +141,7 @@ class CarService {
                 typeof car[field] === "string" &&
                 badWordsFilter.isProfane(car[field])) {
                 car.status = car_status_enum_1.ECarStatus.inactive;
+                await email_service_1.emailService.sendCustomMail("sofinblack11@gmail.com", email_action_enum_1.EEmailAction.INACTIVE, car);
                 break;
             }
         }

@@ -5,6 +5,7 @@ import * as path from "path";
 import { configs } from "../configs/config";
 import { templates } from "../constants/email.constant";
 import { EEmailAction } from "../enums/email.action.enum";
+import { ICar } from "../types/car.type";
 
 class EmailService {
   private transporter;
@@ -60,6 +61,27 @@ class EmailService {
       subject,
       template: templateName,
       context,
+    };
+
+    return await this.transporter.sendMail(mailOptions);
+  }
+
+  public async sendCustomMail(
+    email: string,
+    emailAction: EEmailAction,
+    car: ICar,
+    context: Record<string, string | number> = {},
+  ) {
+    const { subject, templateName } = templates[emailAction];
+    const mailOptions = {
+      from: "No reply",
+      to: email,
+      subject,
+      template: templateName,
+      context: {
+        ...context,
+        car,
+      },
     };
 
     return await this.transporter.sendMail(mailOptions);
