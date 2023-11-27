@@ -1,21 +1,6 @@
 import { configs } from "../configs/config";
 import { ECarStatus } from "../enums/car.status.enum";
-import { ICar } from "../types/car.type";
-import { IUser } from "../types/user.type";
-
-interface IPresenter<I, O> {
-  present(payload: I): O;
-}
-
-interface IUserSubset {
-  name: IUser["name"];
-  email: IUser["email"];
-  phone: IUser["phone"];
-}
-
-interface ICarWithUserSubset extends ICar {
-  _userId: IUserSubset;
-}
+import { ICarWithUserSubset, IPresenter } from "../types/presenter.type";
 
 class CarPresenter
   implements IPresenter<ICarWithUserSubset, Partial<ICarWithUserSubset>>

@@ -1,8 +1,5 @@
+import { IPresenter } from "../types/presenter.type";
 import { IUser } from "../types/user.type";
-
-interface IPresenter<I, O> {
-  present(payload: I): O;
-}
 
 class UserPresenter implements IPresenter<IUser, Partial<IUser>> {
   present(data: IUser): Partial<IUser> {
