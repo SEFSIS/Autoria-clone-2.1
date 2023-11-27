@@ -137,7 +137,6 @@ class CarService {
         throw new ApiError("You cannot create more than 1 car", 403);
       }
     }
-
     return await carRepository.createCar(dto, userId);
   }
 

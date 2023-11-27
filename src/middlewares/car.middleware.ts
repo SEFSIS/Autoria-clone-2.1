@@ -1,3 +1,4 @@
+import Filter from "bad-words";
 import { NextFunction, Request, Response } from "express";
 
 import { ApiError } from "../errors/api.error";
@@ -14,6 +15,29 @@ class CarMiddleware {
       }
 
       req.res.locals = car;
+
+      next();
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public checkForBadWords(req: Request, res: Response, next: NextFunction) {
+    try {
+      const badWordsFilter = new Filter();
+
+      for (const key in req.body) {
+        if (typeof req.body[key] === "string") {
+          const text = req.body[key];
+
+          if (badWordsFilter.isProfane(text)) {
+            throw new ApiError(
+              "The use of profanity is prohibited, idiot!",
+              400,
+            );
+          }
+        }
+      }
 
       next();
     } catch (e) {

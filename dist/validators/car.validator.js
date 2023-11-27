@@ -13,7 +13,9 @@ class CarValidator {
 }
 exports.CarValidator = CarValidator;
 _a = CarValidator;
-CarValidator.brand = joi_1.default.valid(...Object.values(brand_enum_1.EBrand));
+CarValidator.brand = joi_1.default.valid(...Object.values(brand_enum_1.EBrand)).messages({
+    "any.only": "Sorry, but this brand is not available in our list! You can inform our manager about this issue. Please, write to this email: manager@gmail.com.",
+});
 CarValidator.modelka = joi_1.default.string().min(3).max(20).trim();
 CarValidator.year = joi_1.default.number().min(1990).max(currentYear);
 CarValidator.color = joi_1.default.string().min(3).max(20).trim();

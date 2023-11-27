@@ -1,12 +1,15 @@
-import joi from "joi";
+import joi, { AnySchema } from "joi";
 
 import { EBrand } from "../enums/brand.enum";
-import {ECity} from "../enums/city.enum";
+import { ECity } from "../enums/city.enum";
 
 const currentYear = new Date().getFullYear();
 
 export class CarValidator {
-  static brand = joi.valid(...Object.values(EBrand));
+  static brand = joi.valid(...Object.values(EBrand)).messages({
+    "any.only":
+      "Sorry, but this brand is not available in our list! You can inform our manager about this issue. Please, write to this email: manager@gmail.com.",
+  }) as AnySchema;
   static modelka = joi.string().min(3).max(20).trim();
   static year = joi.number().min(1990).max(currentYear);
   static color = joi.string().min(3).max(20).trim();
