@@ -33,6 +33,7 @@ const config_1 = require("./configs/config");
 const exchange_controller_1 = require("./controllers/exchange.controller");
 const auth_router_1 = require("./routers/auth.router");
 const car_router_1 = require("./routers/car.router");
+const check_router_1 = require("./routers/check.router");
 const user_router_1 = require("./routers/user.router");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -44,6 +45,7 @@ app.use("/cars", car_router_1.carRouter);
 app.post("/exchangeRate", async (req, res) => {
     return await (0, exchange_controller_1.handleExchangeRate)(req, res);
 });
+app.use("/checks", check_router_1.checkRouter);
 app.use((error, req, res, next) => {
     const status = error.status || 500;
     res.status(status).json({
