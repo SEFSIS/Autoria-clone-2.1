@@ -16,7 +16,7 @@ export class CarValidator {
   static color = joi.string().min(3).max(20).trim();
   static number_of_owners = joi.number().min(1).max(5);
   static insurance = joi.boolean().truthy("yes").falsy("no").sensitive(false);
-  static price = joi.number().min(1000).max(5000);
+  static price = joi.number().min(1000).max(10000000);
   static city = joi.valid(...Object.values(ECity));
   static status = joi.valid(...Object.values(EStatus));
 
