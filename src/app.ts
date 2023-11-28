@@ -3,6 +3,7 @@ import fileUpload from "express-fileupload";
 import * as mongoose from "mongoose";
 
 import { configs } from "./configs/config";
+import { handleExchangeRate } from "./controllers/exchange.controller";
 //import { cronRunner } from "./crons";
 import { authRouter } from "./routers/auth.router";
 import { carRouter } from "./routers/car.router";
@@ -17,6 +18,9 @@ app.use(fileUpload());
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
 app.use("/cars", carRouter);
+app.post("/exchangeRate", async (req: Request, res: Response) => { // перенести
+  return await handleExchangeRate(req, res);
+});
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   const status = error.status || 500;

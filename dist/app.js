@@ -30,6 +30,7 @@ const express_1 = __importDefault(require("express"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const mongoose = __importStar(require("mongoose"));
 const config_1 = require("./configs/config");
+const exchange_controller_1 = require("./controllers/exchange.controller");
 const auth_router_1 = require("./routers/auth.router");
 const car_router_1 = require("./routers/car.router");
 const user_router_1 = require("./routers/user.router");
@@ -40,6 +41,9 @@ app.use((0, express_fileupload_1.default)());
 app.use("/users", user_router_1.userRouter);
 app.use("/auth", auth_router_1.authRouter);
 app.use("/cars", car_router_1.carRouter);
+app.post("/exchangeRate", async (req, res) => {
+    return await (0, exchange_controller_1.handleExchangeRate)(req, res);
+});
 app.use((error, req, res, next) => {
     const status = error.status || 500;
     res.status(status).json({
